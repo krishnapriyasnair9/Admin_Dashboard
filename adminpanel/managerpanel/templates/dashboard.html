@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo">
+        <h2>Admin Panel</h2>
+      </div>
+      <ul class="nav-links">
+        <li class="active">
+          <a href="{% url 'dashboard' %}">
+            <i class='bx bxs-dashboard'></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class='bx bxs-cog'></i>
+            <span>Settings</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'logout' %}">
+            <i class='bx bx-log-out'></i>
+            <span>Logout</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Header -->
+      <div class="header">
+        <div class="breadcrumb">
+          <h2 class="page-title">Welcome To Your Space</h2>
+        </div>
+        <div class="user-dropdown">
+          <div class="user-info" id="userDropdown">
+            <i class='bx bxs-user-circle'></i>
+            <span>{{ user.username }}</span>
+            <i class='bx bx-chevron-down dropdown-arrow'></i>
+          </div>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+          </div>
+        </div>
+      </div>
+      <div class="banner-management-card">
+        <div class="card-header">
+          <h3>Banner Management</h3>
+          <p>Update banners for different pages</p>
+        </div>
+
+        <div class="card-content">
+          <!-- ✅ Django message block inside card -->
+          {% if messages %}
+            <div class="messages">
+              {% for message in messages %}
+                <p class="{{ message.tags }}">{{ message }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+
+          <!-- ✅ Form for backend -->
+          <form action="{% url 'update_banner' %}" method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <!-- Page Selection -->
+            <div class="form-group">
+              <label for="pageSelect">Select Page</label>
+              <div class="select-wrapper">
+                <select name="page" id="pageSelect" class="form-select" required>
+                  <option value="">Choose a page...</option>
+                  <option value="home">Home</option>
+                  <option value="about">About</option>
+                  <option value="contact">Contact</option>
+                  <option value="package">Package</option>
+                  <option value="franchise">Franchise</option>
+                </select>
+                <i class='bx bx-chevron-down'></i>
+              </div>
+            </div>
+
+            <!-- Banner Type Selection -->
+            <div class="form-group">
+              <label for="bannerType">Select Banner Type</label>
+              <div class="select-wrapper">
+                <select name="banner_type" id="bannerType" class="form-select" required>
+                  <option value="">Choose a Banner Type...</option>
+                  <option value="image">Image</option>
+                  <option value="video">Video</option>
+                </select>
+                <i class='bx bx-chevron-down'></i>
+              </div>
+            </div>
+
+            <!-- File Upload -->
+            <div class="form-group">
+              <label for="bannerFile">Upload Banner</label>
+              <input
+                type="file"
+                name="banner_file"
+                id="bannerFile"
+                class="file-input"
+                accept="image/*,video/*"
+                required
+              >
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+              <button type="submit" class="btn-primary">
+                <i class='bx bx-upload'></i>
+                Update
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="{% static 'js/dashboard.js' %}"></script>
+</body>
+</html>
