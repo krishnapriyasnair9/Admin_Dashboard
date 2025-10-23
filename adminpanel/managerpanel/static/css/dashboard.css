@@ -86,6 +86,7 @@ body {
     overflow-y: auto;
     background: url("../images/maincontent.jpeg") 
                 no-repeat center center/cover;
+    
 }
 
 /* Header Styles */
@@ -94,10 +95,11 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
     padding-bottom: 15px;
     padding: 15px 30px 15px auto;
     background-color:rgb(5, 48, 75);
+    border-radius: 7px;
     
 }
 
@@ -216,7 +218,7 @@ body {
 .card-header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    padding: 20px;
+    padding: 8px;
 }
 
 .card-header h3 {
@@ -226,7 +228,7 @@ body {
 }
 
 .card-content {
-    padding: 30px 20px;
+    padding: 19px 1px;
     text-align: center;
 }
 
@@ -367,16 +369,6 @@ body {
 .logout-item:hover i,
 .logout-item:hover span {
     color: #c0392b;
-}
-.banner-management-card {
-  width: 420px;
-  max-width: 90%;
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  padding: 10px 20px;
-  margin-left: 30px;
-  transition: all 0.3s ease;
 }
 
 .banner-management-card:hover {
@@ -539,43 +531,42 @@ body {
 
 /* Make card relative container */
 .banner-management-card {
-    position: relative; /* Ensures messages are positioned inside */
-    background: #321764;
-    border-radius: 16px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    position: relative; 
     width: 420px;
     max-width: 90%;
-    
+    background: #321764; 
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-left: 10px;
+    transition: all 0.3s ease;
 }
 
 /* Message container */
 .banner-management-card .messages {
     position: absolute;
-    justify-content: center;
-    top: 30%;               
+    top: 27%;               
     left: 50%;            
-    transform: translate(-18%, -50%);
+    transform: translate(-50%, -50%); 
     text-align: center;
     width: 100%;            
     z-index: 5;
-    text-align: center;
-    
+    display: flex;
+    justify-content: center; 
 }
 
 /* Message style */
 .banner-management-card .messages p {
-    display: inline-block;
     background: #4CAF50;      
     color: white;
     padding: 8px 10px;
     border-radius: 5px;
     font-size: 14px;
-    display: inline-block;
     opacity: 0;
     animation: fadeMessage 3s ease forwards;
     pointer-events: none; 
-    
+    min-width: 200px; 
+    text-align: center;
 }
 
 /* Django message tags */
@@ -586,11 +577,12 @@ body {
 
 /* Animation: fade in and fade out */
 @keyframes fadeMessage {
-    0%   { opacity: 0; transform: translate(-50%, -10px); }
-    10%  { opacity: 1; transform: translate(-50%, 0); }
-    80%  { opacity: 1; transform: translate(-50%, 0); }
-    100% { opacity: 0; transform: translate(-50%, -10px); }
+    0%   { opacity: 0; transform: translateY(-10px); }
+    10%  { opacity: 1; transform: translateY(0); }
+    80%  { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-10px); }
 }
+
 
 /* ---------------------------
    Responsive Styles
@@ -717,40 +709,47 @@ body {
   }
 }
 /* Banner messages responsive */
+/* Tablet screens (<= 768px) */
 @media (max-width: 768px) {
   .banner-management-card .messages {
     position: absolute;
-    top: 30%;               
+    top: 27%;               
     left: 50%;            
-    transform: translate(-6%, -50%);
+    transform: translate(-50%, -50%); /* ✅ Perfect horizontal center */
     text-align: center;
     width: 100%;            
     z-index: 5;
-    text-align: center;
+    display: flex;
+    justify-content: center;
   }
 
   .banner-management-card .messages p {
     display: block;
-    width: 90%;
+    width: 85%; /* slightly narrower for balance */
     margin: 0 auto;
     font-size: 14px;
   }
 }
 
+/* Mobile screens (<= 480px) */
 @media (max-width: 480px) {
   .banner-management-card .messages {
     position: absolute;
-    top: 35%;               
+    top: 33%;               
     left: 50%;            
-    transform: translate(-5%, -50%);
+    transform: translate(-50%, -50%); /* ✅ Fix: properly centered */
     text-align: center;
     width: 100%;            
     z-index: 5;
-    text-align: center;
+    display: flex;
+    justify-content: center;
   }
 
   .banner-management-card .messages p {
     font-size: 13px;
     padding: 6px 8px;
+    width: 90%;
+    margin: 0 auto;
   }
+
 }
