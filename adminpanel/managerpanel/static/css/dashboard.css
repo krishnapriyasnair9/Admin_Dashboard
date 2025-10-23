@@ -244,7 +244,7 @@ body {
 /* User Dropdown Styles */
 .user-dropdown {
   display: flex;
-  justify-content: flex-end; /* align inside container to right */
+  justify-content: flex-end; 
   flex: 1;
 }
 
