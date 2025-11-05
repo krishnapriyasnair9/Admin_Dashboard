@@ -1,0 +1,177 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block title %}Contact | Dashboard{% endblock title %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages.css' %}" />
+{% endblock extra_css %}
+
+{% block content %}
+<main class="main-wrapper">
+
+    <!-- ======================
+         DISPLAY MESSAGES
+    ====================== -->
+    {% if messages %}
+    <div class="messages card-animation">
+        {% for message in messages %}
+        <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Page heading -->
+    <section class="page-heading card-animation">
+        <h1 id="pageTitle">Edit Contact Page</h1>
+    </section>
+
+    <!-- SINGLE FORM FOR BOTH CARDS -->
+    <form method="POST" enctype="multipart/form-data" class="form-cards card-animation" action="{% url 'update_contact' %}">
+        {% csrf_token %}
+
+        <!-- Banner Section -->
+        <section class="banner-section">
+            <div class="banner-content">
+                <h2 class="banner-label">Choose Your Banner Type</h2>
+                <div class="type-buttons">
+                    <button type="button" class="type-btn {% if page.banner_type == 'image' %}active{% endif %}" data-type="image">Image</button>
+                    <button type="button" class="type-btn {% if page.banner_type == 'video' %}active{% endif %}" data-type="video">Video</button>
+                </div>
+            </div>
+
+            <!-- Hidden input to store selected banner type -->
+            <input type="hidden" name="banner_type" id="bannerTypeInput" value="{{ page.banner_type }}">
+
+            <div class="upload-container" id="bannerUploader">
+                <div class="background-video">
+                    <video autoplay muted loop id="bgVideo">
+                        {% if page.banner_type == 'video' and page.banner_file %}
+                        <source src="{{ page.banner_file.url }}" type="video/mp4">
+                        {% else %}
+                        <source src="{% static 'videos/background.mp4' %}" type="video/mp4">
+                        {% endif %}
+                    </video>
+                </div>
+                <div class="uploader" id="uploader">
+                    <div class="drop-hint">Drag & drop your file here — or click to select</div>
+                    <input type="file" name="banner_file" id="fileInput" accept="image/*,video/*" aria-label="Upload banner image or video" />
+                    <div class="preview-area" id="previewArea" aria-live="polite">
+                        {% if page.banner_type == 'image' and page.banner_file %}
+                        <img src="{{ page.banner_file.url }}" alt="Current Banner">
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content Editor Section -->
+        <section class="content-editor">
+            <div class="editor-card">
+                <h3>Update Page Content</h3>
+                <div class="form-group">
+                    <label for="editHeading">Page Heading</label>
+                    <input id="editHeading" type="text" name="heading" value="{{ page.heading }}" />
+                </div>
+                <div class="form-group">
+                    <label for="editDesc">Page Description</label>
+                    <textarea id="editDesc" name="description" rows="4">{{ page.description }}</textarea>
+                </div>
+            </div>
+        </section>
+
+        <!-- Save Section -->
+        <section class="save-section">
+            <button type="submit" class="btn save-btn">Save Changes</button>
+        </section>
+    </form>
+</main>
+
+<!-- =========================
+     JS FOR ANIMATION + PREVIEW
+========================= -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // =========================
+    // Scroll animations
+    // =========================
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.15
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const el = entry.target;
+
+            if(entry.isIntersecting){
+                if(el.classList.contains('messages')) {
+                    const children = el.querySelectorAll('.message');
+                    children.forEach((child, index) => {
+                        setTimeout(() => {
+                            child.classList.add('animate-in');
+                        }, index * 150);
+                    });
+                }
+                el.classList.add('animate-in');
+            } else {
+                el.classList.remove('animate-in');
+                if(el.classList.contains('messages')) {
+                    const children = el.querySelectorAll('.message');
+                    children.forEach(child => child.classList.remove('animate-in'));
+                }
+            }
+        });
+    }, observerOptions);
+
+    // Animate headings
+    const headingElements = document.querySelectorAll('.page-heading h1, .banner-label, .editor-card h3');
+    headingElements.forEach(heading => observer.observe(heading));
+
+    // Observe all card-animation elements
+    const animateElements = document.querySelectorAll('.card-animation, .banner-section, .upload-container, .content-editor');
+    animateElements.forEach(el => observer.observe(el));
+
+    // =========================
+    // Banner preview logic
+    // =========================
+    const fileInput = document.getElementById('fileInput');
+    const previewArea = document.getElementById('previewArea');
+    const bgVideo = document.getElementById('bgVideo');
+    const bannerTypeInput = document.getElementById('bannerTypeInput');
+
+    fileInput.addEventListener('change', e => {
+        const file = e.target.files[0];
+        if(!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const ext = file.name.split('.').pop().toLowerCase();
+            previewArea.innerHTML = '';
+            if(ext === 'mp4' || ext === 'webm') {
+                bgVideo.src = event.target.result;
+                bgVideo.style.display = 'block';
+            } else {
+                const img = document.createElement('img');
+                img.src = event.target.result;
+                previewArea.appendChild(img);
+                bgVideo.style.display = 'none';
+            }
+        }
+        reader.readAsDataURL(file);
+    });
+
+    // =========================
+    // Banner type toggle
+    // =========================
+    const typeButtons = document.querySelectorAll('.type-btn');
+    typeButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            typeButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            bannerTypeInput.value = btn.dataset.type;
+        });
+    });
+});
+</script>
+{% endblock content %}

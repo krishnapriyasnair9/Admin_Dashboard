@@ -2,135 +2,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}Dashboard{% endblock title %}</title>
+  
   <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+  
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  {% block extra_css %}{% endblock extra_css %}
 </head>
 <body>
-  <div class="dashboard-container">
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <div class="logo">
-        <h2>Admin Panel</h2>
-      </div>
-      <ul class="nav-links">
-        <li class="active">
-          <a href="{% url 'dashboard' %}">
-            <i class='bx bxs-dashboard'></i>
-            <span>Dashboard</span>
-          </a>
-        </li>
-        <!-- <li>
-          <a href="#">
-            <i class='bx bxs-cog'></i>
-            <span>Settings</span>
-          </a>
-        </li> -->
-        <li>
-          <a href="{% url 'logout' %}">
-            <i class='bx bx-log-out'></i>
-            <span>Logout</span>
-          </a>
-        </li>
-      </ul>
+
+  <!-- ✅ HERO VIDEO BACKGROUND SECTION -->
+  <section class="hero-section">
+    <video autoplay muted loop class="hero-video">
+      <source src="{% static 'videos/login_background.mp4' %}" type="video/mp4">
+    </video>
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <h1 class="bounce-letters" id="heroHeading">Shape What the World Sees</h1>
+      <p>Bring your brand's true identity forward — beautifully and boldly.</p>
     </div>
+  </section>
 
-    <!-- Main Content -->
-    <div class="main-content">
-      <!-- Header -->
-      <div class="header">
-        <div class="breadcrumb">
-          <h2 class="page-title">Welcome To Your Space</h2>
-        </div>
-        <div class="user-dropdown">
-          <div class="user-info" id="userDropdown">
-            <i class='bx bxs-user-circle'></i>
-            <span>{{ user.username }}</span>
-            <i class='bx bx-chevron-down dropdown-arrow'></i>
-          </div>
-          <div class="dropdown-menu" id="dropdownMenu">
-            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-          </div>
-        </div>
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="logo">
+        <img src="{% static 'images/logo.png' %}" alt="Logo" class="sidebar-logo">
       </div>
-      <div class="banner-management-card">
-        <div class="card-header">
-          <h3>Banner Management</h3>
-          <p>Update banners for different pages</p>
+
+     <ul class="menu" id="menu">
+          <li class="menu-item {% if current_page == 'home' %}active{% endif %}">
+              <a href="{% url 'home' %}?page=home"><i class='bx bxs-home'></i> Home</a>
+          </li>
+          <li class="menu-item {% if current_page == 'package' %}active{% endif %}">
+              <a href="{% url 'package' %}?page=package"><i class='bx bx-package'></i> Package</a>
+          </li>
+          <li class="menu-item {% if current_page == 'franchise' %}active{% endif %}">
+              <a href="{% url 'home' %}?page=franchise"><i class='bx bx-store-alt'></i> Franchise</a>
+          </li>
+          <li class="menu-item {% if current_page == 'contact' %}active{% endif %}">
+              <a href="{% url 'home' %}?page=contact"><i class='bx bxs-contact'></i> Contact</a>
+          </li>
+      </ul>
+
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- MAIN CONTENT -->
+    <div class="content">
+
+      <!-- ✅ TRANSPARENT TOPBAR -->
+      <header class="topbar">
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu"><i class='bx bx-menu'></i></button>
+
+        <div class="topbar-left">
+          <strong id="currentPageLabel">{{ current_page|title }}</strong>
+
         </div>
 
-        <div class="card-content">
-          <!-- ✅ Django message block inside card -->
-          {% if messages %}
-            <div class="messages">
-              {% for message in messages %}
-                <p class="{{ message.tags }}">{{ message }}</p>
-              {% endfor %}
-            </div>
-          {% endif %}
+        <div class="top-right">
+          <div class="profile-wrapper" id="profileWrapper" tabindex="0">
+           {% if user.profile.photo %}
+                <img src="{{ user.profile.photo.url }}" 
+                    alt="Profile Photo" class="profile-img" id="profilePreview">
+            {% else %}
+                <img src="{% static 'images/default.png' %}" 
+                    alt="Default Profile" class="profile-img" id="profilePreview">
+            {% endif %}
 
 
-          <!-- ✅ Form for backend -->
-          <form action="{% url 'update_banner' %}" method="POST" enctype="multipart/form-data">
+            <div class="profile-name">{{ user.username }}</div>
+            <i class='bx bx-chevron-down'></i>
 
-            {% csrf_token %}
+            <div class="dropdown" id="profileDropdown">
 
-            <!-- Page Selection -->
-            <div class="form-group">
-              <label for="pageSelect">Select Page</label>
-              <div class="select-wrapper">
-                <select name="page" id="pageSelect" class="form-select" required>
-                  <option value="">Choose a page...</option>
-                  <option value="home">Home</option>
-                  <option value="about">About</option>
-                  <option value="contact">Contact</option>
-                  <option value="package">Package</option>
-                  <option value="franchise">Franchise</option>
-                </select>
-                <i class='bx bx-chevron-down'></i>
-              </div>
-            </div>
+                <label class="upload-label" for="profileUpload">
+                    <i class='bx bx-camera'></i> 
+                    {% if user.profile.photo %}
+                        Change Profile Photo
+                    {% else %}
+                        Upload Profile Photo
+                    {% endif %}
 
-            <!-- Banner Type Selection -->
-            <div class="form-group">
-              <label for="bannerType">Select Banner Type</label>
-              <div class="select-wrapper">
-                <select name="banner_type" id="bannerType" class="form-select" required>
-                  <option value="">Choose a Banner Type...</option>
-                  <option value="image">Image</option>
-                  <option value="video">Video</option>
-                </select>
-                <i class='bx bx-chevron-down'></i>
-              </div>
+                </label>
+
+                <input type="file" id="profileUpload" accept="image/*" style="display:none" />
+
+                <a href="{% url 'logout' %}" class="logout-link">
+                    <i class='bx bx-log-out'></i> Logout
+                </a>
+
             </div>
 
-            <!-- File Upload -->
-            <div class="form-group">
-              <label for="bannerFile">Upload Banner</label>
-              <input
-                type="file"
-                name="banner_file"
-                id="bannerFile"
-                class="file-input"
-                accept="image/*,video/*"
-                required
-              >
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="action-buttons">
-              <button type="submit" class="btn-primary">
-                <i class='bx bx-upload'></i>
-                Update
-              </button>
-            </div>
-          </form>
+          </div>
         </div>
-      </div>
+      </header>
+
+      <!-- ✅ CHILD CONTENT WILL SHOW HERE -->
+      {% block content %}
+      {% endblock content %}
+
     </div>
   </div>
-  <script src="{% static 'js/dashboard.js' %}"></script>
+
+<!-- ✅ All Scripts Stay Same -->
+<script>
+  // -------------------- TOPBAR SCROLL EFFECT --------------------
+  const topbar = document.querySelector(".topbar");
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 20) topbar.classList.add("scrolled");
+    else topbar.classList.remove("scrolled");
+  });
+
+  // -------------------- CARD ANIMATION ON VIEW --------------------
+  const animatedElements = document.querySelectorAll(".card-animation");
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add("animate-in");
+    });
+  }, { threshold: 0.2 });
+  animatedElements.forEach(el => observer.observe(el));
+
+  // -------------------- PROFILE DROPDOWN --------------------
+  const profileWrapper = document.getElementById('profileWrapper');
+  const profileDropdown = document.getElementById('profileDropdown');
+
+  profileWrapper.addEventListener("click", e => {
+    e.stopPropagation();
+    profileDropdown.classList.toggle("show");
+  });
+
+  document.addEventListener("click", e => {
+    if (!profileWrapper.contains(e.target)) {
+      profileDropdown.classList.remove("show");
+    }
+  });
+
+  // -------------------- PROFILE UPLOAD PREVIEW --------------------
+  const profileUpload = document.getElementById("profileUpload");
+  const profilePreview = document.getElementById("profilePreview");
+  profileUpload?.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => profilePreview.src = reader.result;
+    reader.readAsDataURL(file);
+  });
+
+  // -------------------- SIDEBAR TOGGLE --------------------
+  const menuToggle = document.getElementById('menuToggle');
+  const sidebar = document.getElementById('sidebar');
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+  function openSidebar() {
+    sidebar.classList.add("open");
+    sidebarOverlay.classList.add("active");
+  }
+
+  function closeSidebar() {
+    sidebar.classList.remove("open");
+    sidebarOverlay.classList.remove("active");
+  }
+
+  function toggleSidebar() {
+    sidebar.classList.contains("open") ? closeSidebar() : openSidebar();
+  }
+
+  menuToggle.addEventListener("click", e => {
+    e.stopPropagation();
+    toggleSidebar();
+  });
+
+  // Close sidebar when clicking overlay
+  sidebarOverlay.addEventListener("click", closeSidebar);
+
+  // Close sidebar when clicking outside
+  document.addEventListener("click", e => {
+    if (!sidebar.contains(e.target) && !menuToggle.contains(e.target) && sidebar.classList.contains("open")) {
+      closeSidebar();
+    }
+  });
+
+  // Close sidebar with ESC key
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && sidebar.classList.contains("open")) {
+      closeSidebar();
+    }
+  });
+
+  // -------------------- HERO HEADING LETTER ANIMATION --------------------
+  const heading = document.getElementById("heroHeading");
+  const text = heading.innerText;
+
+  heading.innerHTML = text
+    .split("")
+    .map((char, i) =>
+      `<span style="animation-delay:${i * 0.12}s">${char === " " ? "&nbsp;" : char}</span>`
+    )
+    .join("");
+
+</script>
+
 </body>
 </html>
