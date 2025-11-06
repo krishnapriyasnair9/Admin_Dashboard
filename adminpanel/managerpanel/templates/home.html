@@ -8,6 +8,7 @@
 
 {% block content %}
 <main class="main-wrapper">
+    
 
     <!-- ======================
          DISPLAY MESSAGES
@@ -24,8 +25,16 @@
 
     <!-- Page heading -->
     <section class="page-heading card-animation">
-        <h1 id="pageTitle">Make the Home Page Shine</h1>
-    </section>
+    <div class="video-background">
+        <video autoplay loop muted playsinline>
+            <source src="{% static 'videos/login_background.mp4' %}" type="video/mp4">
+        </video>
+    </div>
+    <div class="fade-overlay"></div>
+    <h1 id="pageTitle">Make the Home Page Shine</h1>
+</section>
+
+
 
     <!-- ======================
          SINGLE FORM FOR BOTH CARDS
@@ -46,26 +55,46 @@
             <!-- Hidden input to store selected banner type -->
             <input type="hidden" name="banner_type" id="bannerTypeInput" value="{{ page.banner_type }}">
 
-            <div class="upload-container" id="bannerUploader">
-                <div class="background-video">
-                    <video autoplay muted loop id="bgVideo">
-                        {% if page.banner_type == 'video' and page.banner_file %}
-                        <source src="{{ page.banner_file.url }}" type="video/mp4">
-                        {% else %}
-                        <source src="{% static 'videos/background.mp4' %}" type="video/mp4">
-                        {% endif %}
-                    </video>
-                </div>
-                <div class="uploader" id="uploader">
-                    <div class="drop-hint" id="dropHint">Drag & drop your file here — or click to select</div>
-                    <input type="file" name="banner_file" id="fileInput" accept="image/*,video/*" aria-label="Upload banner image or video" />
-                    <div class="preview-area" id="previewArea" aria-live="polite">
-                        {% if page.banner_type == 'image' and page.banner_file %}
-                        <img src="{{ page.banner_file.url }}" alt="Current Banner">
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
+            <div class="upload-container animate-in" id="bannerUploader">
+    <!-- Video Background -->
+    <div class="background-video">
+        <video autoplay muted loop id="bgVideo">
+            {% if page.banner_type == 'video' and page.banner_file %}
+            <source src="{{ page.banner_file.url }}" type="video/mp4">
+            {% else %}
+            <source src="{% static 'videos/background.mp4' %}" type="video/mp4">
+            {% endif %}
+        </video>
+        <div class="overlay"></div>
+    </div>
+
+    <!-- Uploader / Basket -->
+    <div class="uploader basket" id="uploader">
+        <!-- Basket Icon -->
+        <div class="basket-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M9 6V4h6v2M5 6l1 14h12l1-14H5z"></path>
+                <path d="M9 12v6M15 12v6"></path>
+            </svg>
+        </div>
+
+        <!-- Drag & drop hint -->
+        <div class="drop-hint">Drag & drop your file here — or click to browse</div>
+
+        <!-- Hidden file input -->
+        <input type="file" id="fileInput" accept="image/*,video/*" />
+
+        <!-- Preview area (full size) -->
+        <div class="preview-area" id="previewArea">
+            {% if page.banner_type == 'image' and page.banner_file %}
+            <img src="{{ page.banner_file.url }}" alt="Current Banner">
+            {% elif page.banner_type == 'video' and page.banner_file %}
+            <video src="{{ page.banner_file.url }}" controls></video>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
         </section>
         <!-- Content Editor Section -->
         <section class="content-editor">

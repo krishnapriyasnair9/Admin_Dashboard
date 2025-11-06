@@ -22,10 +22,18 @@
 
     <!-- Page heading -->
     <section class="page-heading card-animation">
+        <div class="video-background">
+            <video autoplay loop muted playsinline>
+                <source src="{% static 'videos/login_background.mp4' %}" type="video/mp4">
+            </video>
+        </div>
+        <div class="fade-overlay"></div>
         <h1 id="pageTitle">Edit Contact Page</h1>
     </section>
 
-    <!-- SINGLE FORM FOR BOTH CARDS -->
+    <!-- ======================
+         SINGLE FORM FOR BOTH CARDS
+    ====================== -->
     <form method="POST" enctype="multipart/form-data" class="form-cards card-animation" action="{% url 'update_contact' %}">
         {% csrf_token %}
 
@@ -42,7 +50,8 @@
             <!-- Hidden input to store selected banner type -->
             <input type="hidden" name="banner_type" id="bannerTypeInput" value="{{ page.banner_type }}">
 
-            <div class="upload-container" id="bannerUploader">
+            <div class="upload-container animate-in" id="bannerUploader">
+                <!-- Video Background -->
                 <div class="background-video">
                     <video autoplay muted loop id="bgVideo">
                         {% if page.banner_type == 'video' and page.banner_file %}
@@ -51,13 +60,31 @@
                         <source src="{% static 'videos/background.mp4' %}" type="video/mp4">
                         {% endif %}
                     </video>
+                    <div class="overlay"></div>
                 </div>
-                <div class="uploader" id="uploader">
-                    <div class="drop-hint">Drag & drop your file here — or click to select</div>
-                    <input type="file" name="banner_file" id="fileInput" accept="image/*,video/*" aria-label="Upload banner image or video" />
-                    <div class="preview-area" id="previewArea" aria-live="polite">
+
+                <!-- Uploader / Basket -->
+                <div class="uploader basket" id="uploader">
+                    <!-- Basket Icon -->
+                    <div class="basket-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 6h18M9 6V4h6v2M5 6l1 14h12l1-14H5z"></path>
+                            <path d="M9 12v6M15 12v6"></path>
+                        </svg>
+                    </div>
+
+                    <!-- Drag & drop hint -->
+                    <div class="drop-hint">Drag & drop your file here — or click to browse</div>
+
+                    <!-- Hidden file input -->
+                    <input type="file" id="fileInput" accept="image/*,video/*" />
+
+                    <!-- Preview area -->
+                    <div class="preview-area" id="previewArea">
                         {% if page.banner_type == 'image' and page.banner_file %}
                         <img src="{{ page.banner_file.url }}" alt="Current Banner">
+                        {% elif page.banner_type == 'video' and page.banner_file %}
+                        <video src="{{ page.banner_file.url }}" controls></video>
                         {% endif %}
                     </div>
                 </div>
@@ -91,27 +118,14 @@
 ========================= -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // =========================
-    // Scroll animations
-    // =========================
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.15
-    };
-
+    const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             const el = entry.target;
-
             if(entry.isIntersecting){
                 if(el.classList.contains('messages')) {
                     const children = el.querySelectorAll('.message');
-                    children.forEach((child, index) => {
-                        setTimeout(() => {
-                            child.classList.add('animate-in');
-                        }, index * 150);
-                    });
+                    children.forEach((child, index) => setTimeout(() => child.classList.add('animate-in'), index*150));
                 }
                 el.classList.add('animate-in');
             } else {
@@ -132,9 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const animateElements = document.querySelectorAll('.card-animation, .banner-section, .upload-container, .content-editor');
     animateElements.forEach(el => observer.observe(el));
 
-    // =========================
     // Banner preview logic
-    // =========================
     const fileInput = document.getElementById('fileInput');
     const previewArea = document.getElementById('previewArea');
     const bgVideo = document.getElementById('bgVideo');
@@ -143,7 +155,6 @@ document.addEventListener('DOMContentLoaded', () => {
     fileInput.addEventListener('change', e => {
         const file = e.target.files[0];
         if(!file) return;
-
         const reader = new FileReader();
         reader.onload = function(event) {
             const ext = file.name.split('.').pop().toLowerCase();
@@ -161,9 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
         reader.readAsDataURL(file);
     });
 
-    // =========================
     // Banner type toggle
-    // =========================
     const typeButtons = document.querySelectorAll('.type-btn');
     typeButtons.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -172,6 +181,36 @@ document.addEventListener('DOMContentLoaded', () => {
             bannerTypeInput.value = btn.dataset.type;
         });
     });
+
+    // Drag & Drop logic
+    const uploader = document.getElementById("uploader");
+    uploader.addEventListener("dragover", (e) => { e.preventDefault(); uploader.classList.add("dragging"); });
+    uploader.addEventListener("dragleave", () => uploader.classList.remove("dragging"));
+    uploader.addEventListener("drop", (e) => {
+        e.preventDefault();
+        uploader.classList.remove("dragging");
+        const file = e.dataTransfer.files[0];
+        displayFile(file);
+    });
+    uploader.addEventListener("click", () => fileInput.click());
+
+    function displayFile(file) {
+        if (!file) return;
+        const url = URL.createObjectURL(file);
+        previewArea.innerHTML = '';
+        if (file.type.startsWith("image")) {
+            const img = document.createElement("img");
+            img.src = url;
+            previewArea.appendChild(img);
+            bgVideo.style.display = 'none';
+        } else if (file.type.startsWith("video")) {
+            const video = document.createElement("video");
+            video.src = url;
+            video.controls = true;
+            previewArea.appendChild(video);
+            bgVideo.style.display = 'block';
+        }
+    }
 });
 </script>
 {% endblock content %}
