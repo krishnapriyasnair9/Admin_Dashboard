@@ -18,7 +18,7 @@
   <!-- ✅ HERO VIDEO BACKGROUND SECTION -->
   <section class="hero-section">
     <video autoplay muted loop class="hero-video">
-      <source src="{% static 'videos/login_background.mp4' %}" type="video/mp4">
+      <source src="{% static 'videos/dashboard_background.mp4' %}" type="video/mp4">
     </video>
 
     <div class="hero-overlay"></div>
@@ -71,12 +71,11 @@
         <div class="top-right">
           <div class="profile-wrapper" id="profileWrapper" tabindex="0">
            {% if user.profile.photo %}
-                <img src="{{ user.profile.photo.url }}" 
-                    alt="Profile Photo" class="profile-img" id="profilePreview">
+                <img src="{{ user.profile.photo.url }}" alt="Profile Photo" class="profile-img">
             {% else %}
-                <img src="{% static 'images/default.png' %}" 
-                    alt="Default Profile" class="profile-img" id="profilePreview">
+                <img src="{% static 'images/default.png' %}" alt="Default Profile" class="profile-img">
             {% endif %}
+
 
 
             <div class="profile-name">{{ user.username }}</div>
@@ -84,17 +83,15 @@
 
             <div class="dropdown" id="profileDropdown">
 
-                <label class="upload-label" for="profileUpload">
-                    <i class='bx bx-camera'></i> 
-                    {% if user.profile.photo %}
-                        Change Profile Photo
-                    {% else %}
-                        Upload Profile Photo
-                    {% endif %}
+                <form method="POST" enctype="multipart/form-data" action="{% url 'upload_profile' %}">
+                    {% csrf_token %}
+                    <label class="upload-label" for="profileUpload">
+                        <i class='bx bx-camera'></i> 
+                        {% if user.profile.photo %}Change Profile Photo{% else %}Upload Profile Photo{% endif %}
+                    </label>
+                    <input type="file" id="profileUpload" name="photo" accept="image/*" style="display:none" onchange="this.form.submit()" />
+                </form>
 
-                </label>
-
-                <input type="file" id="profileUpload" accept="image/*" style="display:none" />
 
                 <a href="{% url 'logout' %}" class="logout-link">
                     <i class='bx bx-log-out'></i> Logout
@@ -117,6 +114,7 @@
 
 <!-- ✅ All Scripts Stay Same -->
 <script>
+  
   // -------------------- TOPBAR SCROLL EFFECT --------------------
   const topbar = document.querySelector(".topbar");
   window.addEventListener("scroll", () => {
@@ -148,16 +146,16 @@
     }
   });
 
-  // -------------------- PROFILE UPLOAD PREVIEW --------------------
-  const profileUpload = document.getElementById("profileUpload");
-  const profilePreview = document.getElementById("profilePreview");
-  profileUpload?.addEventListener("change", (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => profilePreview.src = reader.result;
-    reader.readAsDataURL(file);
-  });
+  // // -------------------- PROFILE UPLOAD PREVIEW --------------------
+  // const profileUpload = document.getElementById("profileUpload");
+  // const profilePreview = document.getElementById("profilePreview");
+  // profileUpload?.addEventListener("change", (e) => {
+  //   const file = e.target.files[0];
+  //   if (!file) return;
+  //   const reader = new FileReader();
+  //   reader.onload = () => profilePreview.src = reader.result;
+  //   reader.readAsDataURL(file);
+  // });
 
   // -------------------- SIDEBAR TOGGLE --------------------
   const menuToggle = document.getElementById('menuToggle');

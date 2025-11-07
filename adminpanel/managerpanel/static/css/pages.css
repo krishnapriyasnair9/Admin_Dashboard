@@ -20,6 +20,14 @@
   --shadow-active: 0 10px 30px rgba(0,0,0,0.25);
 }
 
+
+.uploader.drag-active {
+  border: 2px dashed var(--accent);
+  background: rgba(255,255,255,0.06);
+  transform: scale(1.03);
+  transition: 0.25s ease-in-out;
+}
+
 /* ========================
    MAIN WRAPPER
 ======================== */
@@ -27,7 +35,7 @@
   position: relative;
   z-index: 1;
   padding: 30px 20px; /* Adjusted padding */
-  margin-top: 50px;
+  margin-top: 0;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -99,7 +107,7 @@
   inset: 0;
   z-index: 2;
   background: linear-gradient(
-      rgba(255,255,255,0.8) 60%,
+      rgba(255,255,255,0.8) 0%,
       rgba(255,255,255,0.3) 50%,
       rgba(255,255,255,0.8) 100%
   );
@@ -114,10 +122,38 @@
   z-index: 3;
   opacity: 0;
   transform: translateX(50px);
-  
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  
+
+  /* ✅ Better visibility */
+  text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.35);
+
+  /* ✅ Shine effect */
+  background: linear-gradient(
+    to right,
+    #ffffff 0%,
+    #eeba2c 20%,
+    #ffffff 40%,
+    #eeba2c 60%,
+    #ffffff 80%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shineMove 3s linear infinite;
+}
+
+/* ✅ Smooth golden shine motion */
+@keyframes shineMove {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
 }
 
 /* Animation on load */
@@ -192,7 +228,7 @@
           rgba(0, 121, 255, 0.3) 0%,   /* Middle subtle fade */
           rgba(14, 14, 13, 0.945) 100%   /* Bottom blue fade */
       ),
-      url(../images/banner_background.jpg) center/cover no-repeat;
+      url(../images/image1.jpeg) center/cover no-repeat;
   border-radius: var(--card-radius);
   box-shadow: var(--shadow);
   box-shadow:
@@ -455,7 +491,7 @@
           rgba(0, 121, 255, 0.3) 0%,   /* Middle subtle fade */
           rgba(13, 13, 14, 0.945) 100%   /* Bottom blue fade */
       ),
-      url(../images/banner_background.jpg) center/cover no-repeat;
+      url(../images/image4.jpeg) center/cover no-repeat;
   border-radius: var(--card-radius);
   box-shadow:
         0px 15px 30px rgba(0, 0, 0, 0.45),

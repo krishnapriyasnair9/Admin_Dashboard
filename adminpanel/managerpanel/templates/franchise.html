@@ -24,7 +24,7 @@
     <section class="page-heading card-animation">
         <div class="video-background">
             <video autoplay loop muted playsinline>
-                <source src="{% static 'videos/login_background.mp4' %}" type="video/mp4">
+                <source src="{% static 'videos/heading_background.mp4' %}" type="video/mp4">
             </video>
         </div>
         <div class="fade-overlay"></div>
@@ -118,37 +118,48 @@
 ========================= -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+
+    /* =====================================================
+       ✅ Smooth Page Load Animation
+    ===================================================== */
+    document.body.classList.add("page-loaded"); 
+    // Make sure to add CSS for `page-loaded` (I'll provide if needed)
+
+    /* =====================================================
+       ✅ Scroll animations (original)
+    ===================================================== */
+    const observerOptions = {
+        root: null,
+        rootMargin: '100px 0px',
+        threshold: 0.05
+    };
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             const el = entry.target;
+
             if(entry.isIntersecting){
                 if(el.classList.contains('messages')) {
                     const children = el.querySelectorAll('.message');
-                    children.forEach((child, index) => setTimeout(() => child.classList.add('animate-in'), index*150));
+                    children.forEach((child, index) => {
+                        setTimeout(() => {
+                            child.classList.add('animate-in');
+                        }, index * 150);
+                    });
                 }
                 el.classList.add('animate-in');
-            } else {
-                el.classList.remove('animate-in');
-                if(el.classList.contains('messages')) {
-                    const children = el.querySelectorAll('.message');
-                    children.forEach(child => child.classList.remove('animate-in'));
-                }
             }
         });
     }, observerOptions);
 
-    // Animate headings
-    const headingElements = document.querySelectorAll('.page-heading h1, .banner-label, .editor-card h3');
-    headingElements.forEach(heading => observer.observe(heading));
-
-    // Observe all card-animation elements
-    const animateElements = document.querySelectorAll('.card-animation, .banner-section, .upload-container, .content-editor');
+    const animateElements = document.querySelectorAll(
+        '.card-animation, .page-heading, .banner-section, .upload-container, .content-editor'
+    );
     animateElements.forEach(el => observer.observe(el));
 
-    // =========================
-    // Banner preview logic
-    // =========================
+    /* =====================================================
+       ✅ Banner preview logic (original)
+    ===================================================== */
     const fileInput = document.getElementById('fileInput');
     const previewArea = document.getElementById('previewArea');
     const bgVideo = document.getElementById('bgVideo');
@@ -157,6 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fileInput.addEventListener('change', e => {
         const file = e.target.files[0];
         if(!file) return;
+
         const reader = new FileReader();
         reader.onload = function(event) {
             const ext = file.name.split('.').pop().toLowerCase();
@@ -174,9 +186,9 @@ document.addEventListener('DOMContentLoaded', () => {
         reader.readAsDataURL(file);
     });
 
-    // =========================
-    // Banner type toggle
-    // =========================
+    /* =====================================================
+       ✅ Banner type toggle (original)
+    ===================================================== */
     const typeButtons = document.querySelectorAll('.type-btn');
     typeButtons.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -186,37 +198,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // =========================
-    // Drag & Drop logic
-    // =========================
-    const uploader = document.getElementById("uploader");
-    uploader.addEventListener("dragover", (e) => { e.preventDefault(); uploader.classList.add("dragging"); });
-    uploader.addEventListener("dragleave", () => uploader.classList.remove("dragging"));
-    uploader.addEventListener("drop", (e) => {
-        e.preventDefault();
-        uploader.classList.remove("dragging");
-        const file = e.dataTransfer.files[0];
-        displayFile(file);
+    /* =====================================================
+       ✅ Additional heading observer (original)
+    ===================================================== */
+    const headingElements = document.querySelectorAll('.page-heading h1, .banner-label, .editor-card h3');
+    headingElements.forEach(heading => {
+        observer.observe(heading);
     });
-    uploader.addEventListener("click", () => fileInput.click());
 
-    function displayFile(file) {
-        if (!file) return;
-        const url = URL.createObjectURL(file);
-        previewArea.innerHTML = '';
-        if (file.type.startsWith("image")) {
-            const img = document.createElement("img");
-            img.src = url;
-            previewArea.appendChild(img);
-            bgVideo.style.display = 'none';
-        } else if (file.type.startsWith("video")) {
-            const video = document.createElement("video");
-            video.src = url;
-            video.controls = true;
-            previewArea.appendChild(video);
-            bgVideo.style.display = 'block';
-        }
-    }
+    /* =====================================================
+       ✅ Drag & Drop Upload Support
+       Fix: Clicking container opens File Select Window
+    ===================================================== */
+    const uploadContainer = document.querySelector(".upload-container");
+
+    uploadContainer.addEventListener("click", () => {
+        fileInput.click();
+    });
+
+    uploadContainer.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        uploadContainer.classList.add("dragging");
+    });
+
+    uploadContainer.addEventListener("dragleave", () => {
+        uploadContainer.classList.remove("dragging");
+    });
+
+    uploadContainer.addEventListener("drop", (e) => {
+        e.preventDefault();
+        uploadContainer.classList.remove("dragging");
+
+        const file = e.dataTransfer.files[0];
+        fileInput.files = e.dataTransfer.files;
+
+        const event = new Event("change");
+        fileInput.dispatchEvent(event);
+    });
 });
 </script>
+
 {% endblock content %}

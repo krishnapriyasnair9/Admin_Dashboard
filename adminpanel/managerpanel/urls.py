@@ -16,6 +16,7 @@ urlpatterns = [
     path('dashboard/update-package/', UpdatePackageView.as_view(), name='update_package'),
     path('dashboard/update-contact/', UpdateContactView.as_view(), name='update_contact'),
     path('dashboard/update-franchise/', UpdateFranchiseView.as_view(), name='update_franchise'),
+    
 
     
 

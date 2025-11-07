@@ -57,37 +57,24 @@ class DashboardView(LoginRequiredMixin, SuperUserRequiredMixin, View):
             'current_page': page  # for sidebar highlight
         })
 
+class UpdateProfileAPI(LoginRequiredMixin, View):
+    login_url = '/'  # Redirect if not logged in
 
-
-
-
-@method_decorator(csrf_exempt, name='dispatch')
-class UpdateProfileAPI(View):
     def post(self, request):
+        # Get or create profile
         profile, _ = Profile.objects.get_or_create(user=request.user)
-        photo = request.FILES.get("photo")
-        if photo:
-            profile.photo = photo
-            profile.save()
-        return JsonResponse({"status": "success", "message": "Profile updated!"})
 
-
-class UpdateProfileAPI(View):
-    def post(self, request):
-        if not request.user.is_authenticated:
-            messages.error(request, "Unauthorized access")
-            return redirect('home')
-
-        profile = request.user.profile  # Assuming OneToOne relation
-
-        if "profile_photo" in request.FILES:
-            profile.profile_photo = request.FILES["profile_photo"]
+        # File input must have name="photo"
+        uploaded_file = request.FILES.get("photo")
+        if uploaded_file:
+            profile.photo = uploaded_file
             profile.save()
             messages.success(request, "✅ Profile photo updated successfully!")
-            return redirect('home')
+        else:
+            messages.warning(request, "⚠️ No file selected for upload!")
 
-        messages.warning(request, "⚠️ No file selected for upload!")
-        return redirect('home')
+        # Redirect back to the page
+        return redirect(request.META.get("HTTP_REFERER", "/home/"))
 class UpdateHomeView(LoginRequiredMixin, SuperUserRequiredMixin, View):
     def post(self, request):
         hero_heading = request.POST.get("heading")

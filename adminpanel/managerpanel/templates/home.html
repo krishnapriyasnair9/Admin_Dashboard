@@ -27,7 +27,7 @@
     <section class="page-heading card-animation">
     <div class="video-background">
         <video autoplay loop muted playsinline>
-            <source src="{% static 'videos/login_background.mp4' %}" type="video/mp4">
+            <source src="{% static 'videos/heading_background.mp4' %}" type="video/mp4">
         </video>
     </div>
     <div class="fade-overlay"></div>
@@ -123,13 +123,20 @@
 ========================= -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // =========================
-    // Scroll animations
-    // =========================
+
+    /* =====================================================
+       ✅ Smooth Page Load Animation
+    ===================================================== */
+    document.body.classList.add("page-loaded"); 
+    // Make sure to add CSS for `page-loaded` (I'll provide if needed)
+
+    /* =====================================================
+       ✅ Scroll animations (original)
+    ===================================================== */
     const observerOptions = {
         root: null,
-        rootMargin: '0px',
-        threshold: 0.15
+        rootMargin: '100px 0px',
+        threshold: 0.05
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -137,36 +144,27 @@ document.addEventListener('DOMContentLoaded', () => {
             const el = entry.target;
 
             if(entry.isIntersecting){
-                // Stagger children animations if needed
                 if(el.classList.contains('messages')) {
                     const children = el.querySelectorAll('.message');
                     children.forEach((child, index) => {
                         setTimeout(() => {
                             child.classList.add('animate-in');
-                        }, index * 150); // stagger by 150ms
+                        }, index * 150);
                     });
                 }
                 el.classList.add('animate-in');
-            } else {
-                // Remove animation on scroll back (optional)
-                el.classList.remove('animate-in');
-                if(el.classList.contains('messages')) {
-                    const children = el.querySelectorAll('.message');
-                    children.forEach(child => child.classList.remove('animate-in'));
-                }
             }
         });
     }, observerOptions);
 
-    // Select all elements to animate
     const animateElements = document.querySelectorAll(
         '.card-animation, .page-heading, .banner-section, .upload-container, .content-editor'
     );
     animateElements.forEach(el => observer.observe(el));
 
-    // =========================
-    // Banner preview logic
-    // =========================
+    /* =====================================================
+       ✅ Banner preview logic (original)
+    ===================================================== */
     const fileInput = document.getElementById('fileInput');
     const previewArea = document.getElementById('previewArea');
     const bgVideo = document.getElementById('bgVideo');
@@ -193,27 +191,58 @@ document.addEventListener('DOMContentLoaded', () => {
         reader.readAsDataURL(file);
     });
 
-    // =========================
-    // Banner type toggle
-    // =========================
+    /* =====================================================
+       ✅ Banner type toggle (original)
+    ===================================================== */
     const typeButtons = document.querySelectorAll('.type-btn');
     typeButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             typeButtons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            bannerTypeInput.value = btn.dataset.type; // update hidden input
+            bannerTypeInput.value = btn.dataset.type;
         });
     });
 
-    // =========================
-    // Optional: slide-in from right for headings only
-    // =========================
+    /* =====================================================
+       ✅ Additional heading observer (original)
+    ===================================================== */
     const headingElements = document.querySelectorAll('.page-heading h1, .banner-label, .editor-card h3');
     headingElements.forEach(heading => {
         observer.observe(heading);
     });
+
+    /* =====================================================
+       ✅ Drag & Drop Upload Support
+       Fix: Clicking container opens File Select Window
+    ===================================================== */
+    const uploadContainer = document.querySelector(".upload-container");
+
+    uploadContainer.addEventListener("click", () => {
+        fileInput.click();
+    });
+
+    uploadContainer.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        uploadContainer.classList.add("dragging");
+    });
+
+    uploadContainer.addEventListener("dragleave", () => {
+        uploadContainer.classList.remove("dragging");
+    });
+
+    uploadContainer.addEventListener("drop", (e) => {
+        e.preventDefault();
+        uploadContainer.classList.remove("dragging");
+
+        const file = e.dataTransfer.files[0];
+        fileInput.files = e.dataTransfer.files;
+
+        const event = new Event("change");
+        fileInput.dispatchEvent(event);
+    });
 });
 </script>
+
 
 
 {% endblock content %}

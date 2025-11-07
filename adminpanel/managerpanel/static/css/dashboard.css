@@ -29,7 +29,7 @@ body {
 .hero-section {
   position: relative;
   width: 100%;
-  height: 270px;
+  height: 290px;
   overflow: hidden;
   z-index: -1;
 }
@@ -73,7 +73,7 @@ body {
 }
 .hero-content h1 {
   font-size: 2.6rem;
-  font-weight: 900;
+  font-weight: 900px;
   margin-bottom: 8px;
   opacity: 0;
   transform: translateX(-50px);
@@ -85,24 +85,6 @@ body {
   transform: translateX(-30px);
   animation: slideInFromLeft 0.8s ease-out 0.5s forwards;
 }
-/* Full page black fade from all sides */
-.page-vignette {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-
-  pointer-events: none; /* clickable elements not blocked */
-  z-index: 500; /* set above background but below UI */
-
-  background: radial-gradient(
-      ellipse at center,
-      rgba(0,0,0,0) 50%,
-      rgba(0,0,0,0.45) 100%
-  );
-}
-
 
 @keyframes slideInFromLeft {
   to {
