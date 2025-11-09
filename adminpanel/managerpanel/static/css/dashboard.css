@@ -3,7 +3,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  font-family: "times new roman", sans-serif;
 }
 
 :root {
@@ -126,63 +126,58 @@ body {
 ============================== */
 .small-video-section {
   width: 81%;
-  margin: -40px auto 40px;
+  margin: 21px auto 40px;
   position: relative;
   z-index: 3;
   left: 158px;
 }
+
+/* Grid Layout */
 .small-video-wrapper {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: -11px;
 }
+
+/* Image Card Styling */
 .small-video-card {
   position: relative;
   width: 77%;
-  height: 100%;
   border-radius: 12px;
   overflow: hidden;
-  aspect-ratio: 16/9; 
-  background: #000;
+  aspect-ratio: 16/9;
   cursor: pointer;
   transform: translateY(20px);
   opacity: 0;
   animation: fadeUp 0.6s ease-out forwards;
-  border: 1px solid gold;
+  border: 2px solid #eeba2c;
 }
-.small-video-card video {
+
+/* Image fills the entire container */
+.small-video-card img {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* show full video */
-  background: #000;    /* black background behind video */
+  object-fit: cover;
+  transition: transform 0.5s ease;
 }
 
+/* Hover zoom effect */
+.small-video-card:hover img {
+  transform: scale(1.05);
+}
 
-
-
+/* Animation delay for each card */
 .small-video-card:nth-child(1) { animation-delay: 0.2s; }
 .small-video-card:nth-child(2) { animation-delay: 0.3s; }
 .small-video-card:nth-child(3) { animation-delay: 0.4s; }
 .small-video-card:nth-child(4) { animation-delay: 0.5s; }
+
+/* Fade-in animation */
 @keyframes fadeUp {
   to {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-/* ✅ Desktop default */
-.small-video-section {
-  width: 81%;
-  margin: -40px auto 40px;
-  position: relative;
-  z-index: 3;
-  left: 158px;
-}
-.small-video-wrapper {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: -11px;
 }
 
 /* ✅ Mobile (<600px) */
@@ -237,8 +232,8 @@ body {
   top: 0;
   padding: 15px;
   z-index: 5000;
-  background: linear-gradient(150deg, var(--sidebar-mid) 0%, var(--sidebar-dark) 50%, var(--gold) 100%);
-  box-shadow: 0 0 15px rgba(247, 246, 246, 0.95);
+   background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 60%, #eeba2c 120%);
+  
   transform: translateX(0);
   transition: transform 0.3s ease-in-out;
 }
@@ -351,10 +346,10 @@ body {
 .topbar {
   height: 65px;
   background: transparent;
-  backdrop-filter: blur(6px);
+ 
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; 
   padding: 0 20px;
   position: fixed;
   top: 0;

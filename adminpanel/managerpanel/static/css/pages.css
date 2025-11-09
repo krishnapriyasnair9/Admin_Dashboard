@@ -44,7 +44,7 @@
   width: 100%; /* Set wrapper width to 95% */
   margin-left: auto; /* Center the wrapper */
   margin-right: auto; /* Center the wrapper */
-    background: linear-gradient(to bottom, white 80%, black 100%);
+  background: black;
 }
 
 /* ========================
@@ -63,125 +63,69 @@
 /* ========================
    PAGE HEADING
 ======================== */
+/* ====== PAGE HEADING SECTION ====== */
 .page-heading {
   position: relative;
-  max-width: 1200px;
-  width: 110%;
-  height: 30vh;
-  text-align: center;
-  padding: 12px;
-  overflow: hidden;
-  background-color: #f8f9fa;
-  border-radius: var(--card-radius);
-  box-shadow: var(--shadow);
-  transition: var(--transition);
+  max-width: 1056px;
+  width: 97%;
+  margin: 0 auto;
+  height: 10vh;
+ 
+  border-radius: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: -45px;
+  text-align: center;
+  overflow: hidden;
+  
+  animation: fadeSlideIn 1s ease-out forwards;
+  
 }
 
-/* ✅ Image background (replaces video) */
-.page-heading .image-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  background-image: url("../images/banner_background.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  filter: brightness(0.9);
-}
-
-/* ✅ Smooth top & bottom oval fade overlay */
-.page-heading .fade-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-
-  /* ✅ Top & bottom soft white gradient fades */
-  background:
-    linear-gradient(
-      to top,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.15) 50%,
-      rgba(252, 250, 250, 0.95) 100%
-    ),
-    linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.15) 50%,
-      rgba(252, 250, 250, 0.95) 100%
-    );
-
-  background-repeat: no-repeat;
-  background-size: 100% 50%, 100% 50%;
-  background-position: top, bottom;
-}
-
-
-/* ✅ Shining heading */
+/* ====== HEADING TEXT ====== */
 .page-heading h1 {
-  position: relative;
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: var(--text-dark);
-  z-index: 3;
+  font-family: Fahkwang,sans-serif;
+  font-size: 2.2rem;
+  font-weight:bold;
+  color: #f7f1f1f3;
   opacity: 0;
-  transform: translateX(50px);
+  transform: translateX(60px); /* start position */
+  transition: all 0.8s ease-out;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
-  text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.35);
-
-  /* Shine gradient */
-  background: linear-gradient(
-    to right,
-    #ffffff 0%,
-    #eeba2c 20%,
-    #ffffff 40%,
-    #eeba2c 60%,
-    #ffffff 80%
-  );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shineMove 3s linear infinite;
 }
 
-/* ✅ Smooth golden shine motion */
-@keyframes shineMove {
-  0% {
-    background-position: 200% center;
-  }
-  100% {
-    background-position: -200% center;
-  }
-}
-
-/* ✅ Slide-in animation */
+/* Slide-in when visible */
 .page-heading.animate-in h1 {
   opacity: 1;
   transform: translateX(0);
 }
 
-/* ---- Responsive Fix ---- */
+/* ====== OPTIONAL ENTRY FADE ====== */
+@keyframes fadeSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ====== RESPONSIVE ====== */
 @media (max-width: 768px) {
   .page-heading {
-    height: 30vh;
-    top: 20px;
+    height: 10vh;
+    width: 98%;
   }
   .page-heading h1 {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     white-space: normal;
   }
 }
+
 
 
 /* =========================
@@ -231,15 +175,8 @@
   width: 100%;
   margin: 0 auto;
   padding: 30px 20px;
-  border: 1px solid gold;
-   background: 
-      linear-gradient(
-          to bottom,
-          rgba(0, 121, 255, 0.3) 0%,    /* Top blue fade */
-          rgba(0, 121, 255, 0.3) 0%,   /* Middle subtle fade */
-          rgba(14, 14, 13, 0.945) 100%   /* Bottom blue fade */
-      ),
-      url(../images/image1.jpeg) center/cover no-repeat;
+  border: 1px solid rgb(247, 246, 240);
+ 
   border-radius: var(--card-radius);
   box-shadow: var(--shadow);
   box-shadow:
@@ -256,7 +193,7 @@
   opacity: 0;
   transform: translateY(40px);
   transition: var(--transition);
-  height: 464px;
+  height:auto;
 }
 .banner-section.animate-in {
   opacity: 1;
@@ -281,11 +218,11 @@
 .banner-label {
   font-size: 2rem;
   font-weight: 700;
-  color: #fff;
+  color: #f8f4f4f5;
   text-align: center;
   line-height: 1.2;
   margin: 0;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  
   opacity: 0;
   transform: translateX(50px);
   transition: var(--transition);
@@ -300,7 +237,7 @@
 .type-buttons {
   display: flex;
   justify-content: center;
-  gap: 15px;
+  gap: 95px;
   flex-wrap: wrap;
   width: 100%;
 }
@@ -310,7 +247,7 @@
   padding: 10px 24px;
   border-radius: 8px;
   border: 2px solid rgba(255, 255, 255, 0.3);
-  background: rgba(207, 201, 189, 0.85);
+  background: #eeba2c;
   color: #070707;
   font-size: 1rem;
   font-weight: 600;
@@ -327,8 +264,8 @@
   border-color: rgba(255, 255, 255, 0.6);
 }
 .type-btn.active {
-  background: var(--accent);
-  color: #fff;
+  background: #e0c989f1;
+  color: #0f0f0f;
   border-color: var(--accent);
   box-shadow: var(--shadow-active);
   transform: translateY(-2px);
@@ -362,7 +299,7 @@
 /* Video Background */
 .background-video {
     position: absolute;
-    top: 0;
+    top: 10px;
     left: 0;
     width: 100%;
     height: 100%;
@@ -386,11 +323,11 @@
 /* Overlay for contrast */
 .background-video .overlay {
     position: absolute;
-    top: 0;
+    top: 5px;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, rgba(255,255,255,0.05), rgba(0,0,0,0.7));
+    background: black;
     z-index: 1;
 }
 
@@ -400,7 +337,7 @@
     z-index: 2;
     border: 2px dashed var(--accent);
     border-radius: var(--card-radius);
-    background: rgba(0,0,0,0.35);
+    background: black;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -409,8 +346,9 @@
     width: 95%;
     max-width: 780px;
     min-height: 250px;
-    padding: 20px;
+    padding: 10px;
     overflow: hidden;
+    top:5px;
 }
 
 /* Glowing border on drag */
@@ -493,28 +431,23 @@
 .content-editor {
   max-width: 1000px;
   width: 100%;
-  padding: 36px 20px;
+  padding: 30px 20px;
   position: relative;
-  border: 1px solid gold;
-  background: 
-      linear-gradient(
-          to bottom,
-          rgba(0, 121, 255, 0.3) 0%,    /* Top blue fade */
-          rgba(0, 121, 255, 0.3) 0%,   /* Middle subtle fade */
-          rgba(13, 13, 14, 0.945) 100%   /* Bottom blue fade */
-      ),
-      url(../images/image4.jpeg) center/cover no-repeat;
+  border: 2px solid rgba(240, 238, 231, 0.938);
+ 
   border-radius: var(--card-radius);
   box-shadow:
         0px 15px 30px rgba(0, 0, 0, 0.45),
         0px 20px 60px rgba(0, 0, 0, 0.30),
         0px 30px 80px rgba(0, 0, 0, 0.20);
-  margin-top: 0;
+  
   opacity: 0;
   transform: translateY(40px);
   transition: var(--transition);
-  height: 464px;
+  height: auto;
   min-width: 220px;
+   margin: 0 auto;
+    min-height: 220px;
 }
 
 
@@ -530,7 +463,7 @@
 .editor-card {
   display: flex;
   flex-direction: column;
-  gap: 65px;
+  gap: 56px;
   background: transparent;
   width: 100%;
   max-width: 800px;
@@ -539,7 +472,7 @@
 .editor-card h3 {
   text-align: center;
   font-size: 2rem;
-  color: #fff;
+  color: #fdf7f7ee;
   margin-bottom: 15px;
   opacity: 0;
   transform: translateX(50px);
@@ -552,10 +485,10 @@
 .editor-card input,
 .editor-card textarea {
   width: 100%;
-  padding: 12px 16px;
+  padding: 20px 16px;
   border-radius: 8px;
-  border: 1px solid rgba(185,177,177,0.96);
-  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(248, 247, 247, 0.959);
+  background: black;
   color: #fff;
   outline: none;
   transition: var(--transition);
@@ -568,68 +501,101 @@
 /* ========================
    FORM CARDS LAYOUT
 ======================== */
+/* =============================
+   FORM CARDS LAYOUT
+============================= */
 .form-cards {
-  width: 90%;
-  margin: 0 auto; /* Center the container */
   display: flex;
-  flex-direction: column; /* Default - mobile view */
+  flex-wrap: wrap;
   gap: 30px;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  padding: 20px;
 }
 
-/* ✅ Desktop layout: show Banner + Editor side-by-side */
-@media (min-width: 1024px) {
-  .form-cards {
-    flex-direction: row; /* Side-by-side layout */
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 30px; /* space between cards */
-  }
-
-  .banner-section,
-  .content-editor {
-    width: calc(50% - 15px); /* Equal width for both cards */
-    
-  }
-
-  /* Save button full width below */
-  .save-section {
-    width: 100%;
-    text-align: center;
-    grid-column: 1 / -1;
-  }
+/* Section paragraphs above cards */
+.form-cards .section-intro {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+  color: white;
+  opacity: 0.85;
+  line-height: 1.5;
 }
 
-/* ✅ Tablet - slight spacing and centered */
-@media (max-width: 1023px) {
-  .form-cards {
-    flex-direction: column;
-    align-items: center;
-    width: 95%;
-  }
+/* =============================
+   INDIVIDUAL CARD STYLES
+============================= */
+.banner-section,
+.content-editor {
+  flex: 1 1 45%;
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0.6) 0%,     /* White at bottom */
+    rgba(43, 39, 39, 0.2) 100%,     /* Quick fade */
+    rgba(0, 0, 0, 1) 20%,            /* Black starts dominating */
+    rgba(0, 0, 0, 1) 100%            /* Fully black */
+  );
+ 
+  animation: slideInRight 1.5s ease 1s forwards;
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow, 0 4px 10px rgba(0, 0, 0, 0.1));
+  padding: 25px;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-height: 350px;
+  height: auto;
+  
+}
 
-  .banner-section,
-  .content-editor {
-    width: 100%;
-  }
+/* ✅ Hover Zoom Effect */
+.banner-section:hover,
+.content-editor:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* =============================
+   SAVE BUTTON CENTERED BELOW CARDS
+============================= */
+.save-section {
+  width: 100%;
+  text-align: center;
+  margin-top: 40px;
 }
 
 .save-btn {
-  padding: 14px 35px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  border-radius: 12px;
-  border: none;
+  background: var(--accent);
+  color: #111010;
+  font-size: 1.5rem;
+  padding: 12px 40px;
+  border: 1px solid black;
+  border-radius: 10px;
   cursor: pointer;
-  color: #070707;
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
-  box-shadow: 0 6px 20px rgba(238,186,44,0.3);
-  transition: var(--transition);
-  min-width: 180px;
+  transition: all 0.3s ease;
 }
+
 .save-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(238,186,44,0.4);
+  background: var(--accent-strong);
+  transform: scale(1.05);
+}
+
+/* =============================
+   SMOOTH CARD ANIMATION
+============================= */
+.card-animation {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.card-animation.animate-in {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ========================
@@ -652,7 +618,7 @@
   .page-heading h1 { font-size: 1.6rem; }
   .banner-label, .editor-card h3 { font-size: 1.5rem; }
   .type-btn { font-size: 0.9rem; padding: 8px 20px; min-width: 90px; }
-  .upload-container, .content-editor, .banner-section { max-width: 90%; margin: 0 auto; }
+  .upload-container, .content-editor, .banner-section { max-width: 110%; margin: 0 auto; }
 }
 @media(max-width:480px){
   .page-heading h1 { font-size: 1.4rem; }

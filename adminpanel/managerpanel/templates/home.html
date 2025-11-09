@@ -24,9 +24,7 @@
     {% endif %}
 
     <!-- Page heading -->
-    <section class="page-heading card-animation">
-  <div class="image-background"></div>
-  <div class="fade-overlay"></div>
+   <section class="page-heading">
   <h1 id="pageTitle">Make the Home Page Shine</h1>
 </section>
 
@@ -37,82 +35,101 @@
          SINGLE FORM FOR BOTH CARDS
     ====================== -->
     <form method="POST" enctype="multipart/form-data" class="form-cards card-animation" action="{% url 'update_home' %}">
-        {% csrf_token %}
+    {% csrf_token %}
 
-        <!-- Banner Section -->
-       <section class="banner-section">
-            <div class="banner-content">
-                <h2 class="banner-label">Choose Your Banner Type</h2>
-                <div class="type-buttons">
-                    <button type="button" class="type-btn {% if page.banner_type == 'image' %}active{% endif %}" data-type="image" id="btnImage">Image</button>
-                    <button type="button" class="type-btn {% if page.banner_type == 'video' %}active{% endif %}" data-type="video" id="btnVideo">Video</button>
-                </div>
+    <!-- Overall Section Intro -->
+    
+    <!-- ======================
+         BANNER SECTION CARD
+    ====================== -->
+    <section class="banner-section">
+        <p class="section-intro">
+           Set the tone with a bold, visually striking banner that defines your brand’s personality from the very first glance.
+        </p>
+
+        <div class="banner-content">
+            <h2 class="banner-label">Choose Your Banner Type</h2>
+            <div class="type-buttons">
+                <button type="button" class="type-btn {% if page.banner_type == 'image' %}active{% endif %}" data-type="image" id="btnImage">Image</button>
+                <button type="button" class="type-btn {% if page.banner_type == 'video' %}active{% endif %}" data-type="video" id="btnVideo">Video</button>
             </div>
-
-            <!-- Hidden input to store selected banner type -->
-            <input type="hidden" name="banner_type" id="bannerTypeInput" value="{{ page.banner_type }}">
-
-            <div class="upload-container animate-in" id="bannerUploader">
-    <!-- Video Background -->
-    <div class="background-video">
-        <video autoplay muted loop id="bgVideo">
-            {% if page.banner_type == 'video' and page.banner_file %}
-            <source src="{{ page.banner_file.url }}" type="video/mp4">
-            {% else %}
-            <source src="{% static 'videos/background.mp4' %}" type="video/mp4">
-            {% endif %}
-        </video>
-        <div class="overlay"></div>
-    </div>
-
-    <!-- Uploader / Basket -->
-    <div class="uploader basket" id="uploader">
-        <!-- Basket Icon -->
-        <div class="basket-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 6h18M9 6V4h6v2M5 6l1 14h12l1-14H5z"></path>
-                <path d="M9 12v6M15 12v6"></path>
-            </svg>
         </div>
 
-        <!-- Drag & drop hint -->
-        <div class="drop-hint">Drag & drop your file here — or click to browse</div>
+        <!-- Hidden input to store selected banner type -->
+        <input type="hidden" name="banner_type" id="bannerTypeInput" value="{{ page.banner_type }}">
 
-        <!-- Hidden file input -->
-        <input type="file" id="fileInput" accept="image/*,video/*" />
+        <!-- Uploader Container -->
+        <div class="upload-container animate-in" id="bannerUploader">
 
-        <!-- Preview area (full size) -->
-        <div class="preview-area" id="previewArea">
-            {% if page.banner_type == 'image' and page.banner_file %}
-            <img src="{{ page.banner_file.url }}" alt="Current Banner">
-            {% elif page.banner_type == 'video' and page.banner_file %}
-            <video src="{{ page.banner_file.url }}" controls></video>
-            {% endif %}
-        </div>
-    </div>
-</div>
+            <!-- Background Video -->
+            <div class="background-video">
+                <video autoplay muted loop id="bgVideo">
+                    {% if page.banner_type == 'video' and page.banner_file %}
+                    <source src="{{ page.banner_file.url }}" type="video/mp4">
+                    {% else %}
+                    <source src="{% static 'videos/background.mp4' %}" type="video/mp4">
+                    {% endif %}
+                </video>
+                <div class="overlay"></div>
+            </div>
 
-        </section>
-        <!-- Content Editor Section -->
-        <section class="content-editor">
-            <div class="editor-card">
-                <h3>Update Page Content</h3>
-                <div class="form-group">
-                    <label for="editHeading">Page Heading</label>
-                    <input id="editHeading" type="text" name="heading" value="{{ page.heading }}" />
+            <!-- Uploader / Basket -->
+            <div class="uploader basket" id="uploader">
+                <!-- Basket Icon -->
+                <div class="basket-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 6h18M9 6V4h6v2M5 6l1 14h12l1-14H5z"></path>
+                        <path d="M9 12v6M15 12v6"></path>
+                    </svg>
                 </div>
-                <div class="form-group">
-                    <label for="editDesc">Page Description</label>
-                    <textarea id="editDesc" name="description" rows="4">{{ page.description }}</textarea>
+
+                <!-- Drag & Drop Hint -->
+                <div class="drop-hint">Drag & drop your file here — or click to browse</div>
+
+                <!-- Hidden File Input -->
+                <input type="file" id="fileInput" name="banner_file" accept="image/*,video/*" />
+
+                <!-- Preview Area -->
+                <div class="preview-area" id="previewArea">
+                    {% if page.banner_type == 'image' and page.banner_file %}
+                    <img src="{{ page.banner_file.url }}" alt="Current Banner">
+                    {% elif page.banner_type == 'video' and page.banner_file %}
+                    <video src="{{ page.banner_file.url }}" controls></video>
+                    {% endif %}
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Save Section -->
-        <section class="save-section">
-            <button type="submit" class="btn save-btn">Save Changes</button>
-        </section>
-    </form>
+    <!-- ======================
+         CONTENT EDITOR CARD
+    ====================== -->
+    <section class="content-editor">
+        <p class="section-intro">
+           Craft a welcoming headline and message that turn visitors into believers — make your homepage speak with confidence.
+        </p>
+
+        <div class="editor-card">
+            <h3>Update Page Content</h3>
+            <div class="form-group">
+                <label for="editHeading">Page Heading</label>
+                <input id="editHeading" type="text" name="heading" value="{{ page.heading }}" />
+            </div>
+            <div class="form-group">
+                <label for="editDesc">Page Description</label>
+                <textarea id="editDesc" name="description" rows="4">{{ page.description }}</textarea>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======================
+         SAVE BUTTON SECTION
+    ====================== -->
+    <section class="save-section">
+        <button type="submit" class="btn save-btn">Save Changes</button>
+    </section>
+</form>
+
 </main>
 
 <!-- =========================
