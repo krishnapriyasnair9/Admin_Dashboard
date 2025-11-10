@@ -232,7 +232,8 @@ body {
   top: 0;
   padding: 15px;
   z-index: 5000;
-   background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 60%, #eeba2c 120%);
+  background: black;
+  border-right: 1px solid white;
   
   transform: translateX(0);
   transition: transform 0.3s ease-in-out;
@@ -368,7 +369,7 @@ body {
   }
 }
 .topbar.scrolled {
-  background: linear-gradient(150deg, var(--gold) 0%, var(--sidebar-dark) 50%, var(--gold) 100%);
+  background: black;
 }
 .menu-toggle {
   display: none;

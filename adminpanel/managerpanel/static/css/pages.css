@@ -14,12 +14,8 @@
   --text-light: #f5eeeef6;
   --text-dark: #222;
   --card-radius: 16px;
-  --transition: all 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
-  --shadow: 0 6px 20px rgba(0,0,0,0.1);
-  --shadow-hover: 0 8px 24px rgba(0,0,0,0.2);
-  --shadow-active: 0 10px 30px rgba(0,0,0,0.25);
+  --transition: all 0.6s ease;
 }
-
 
 .uploader.drag-active {
   border: 2px dashed var(--accent);
@@ -44,7 +40,13 @@
   width: 100%; /* Set wrapper width to 95% */
   margin-left: auto; /* Center the wrapper */
   margin-right: auto; /* Center the wrapper */
-  background: black;
+    opacity: 0;
+  animation: pageFadeIn 1s ease forwards;
+}
+
+@keyframes pageFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* ========================
@@ -70,39 +72,33 @@
   width: 97%;
   margin: 0 auto;
   height: 10vh;
- 
   border-radius: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   overflow: hidden;
-  
   animation: fadeSlideIn 1s ease-out forwards;
-  
 }
 
-/* ====== HEADING TEXT ====== */
 .page-heading h1 {
-  font-family: Fahkwang,sans-serif;
+  font-family: Fahkwang, sans-serif;
   font-size: 2.2rem;
-  font-weight:bold;
-  color: #f7f1f1f3;
+  font-weight: bold;
+  color: black;
   opacity: 0;
-  transform: translateX(60px); /* start position */
+  transform: translateX(60px);
   transition: all 0.8s ease-out;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* Slide-in when visible */
 .page-heading.animate-in h1 {
   opacity: 1;
   transform: translateX(0);
 }
 
-/* ====== OPTIONAL ENTRY FADE ====== */
 @keyframes fadeSlideIn {
   0% {
     opacity: 0;
@@ -175,26 +171,33 @@
   width: 100%;
   margin: 0 auto;
   padding: 30px 20px;
-  border: 1px solid rgb(247, 246, 240);
- 
   border-radius: var(--card-radius);
-  box-shadow: var(--shadow);
-  box-shadow:
-        0px 15px 30px rgba(0, 0, 0, 0.45),
-        0px 20px 60px rgba(0, 0, 0, 0.30),
-        0px 30px 80px rgba(0, 0, 0, 0.20);
+
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  min-height: 220px;
-  opacity: 0;
-  transform: translateY(40px);
+  min-height: 524px;
+  height: auto;
+   transform: translateX(-80px);
   transition: var(--transition);
-  height:auto;
+  animation: slideInLeft 1.5s ease forwards;
+
+
 }
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .banner-section.animate-in {
   opacity: 1;
   transform: translateY(0);
@@ -218,7 +221,7 @@
 .banner-label {
   font-size: 2rem;
   font-weight: 700;
-  color: #f8f4f4f5;
+  color: black;
   text-align: center;
   line-height: 1.2;
   margin: 0;
@@ -246,7 +249,7 @@
 .type-btn {
   padding: 10px 24px;
   border-radius: 8px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(7, 7, 7, 0.966);
   background: #eeba2c;
   color: #070707;
   font-size: 1rem;
@@ -261,7 +264,7 @@
   transform: translateY(-2px);
   background: rgba(255, 255, 255, 0.25);
   box-shadow: var(--shadow-hover);
-  border-color: rgba(255, 255, 255, 0.6);
+  border-color: rgba(2, 2, 2, 0.6);
 }
 .type-btn.active {
   background: #e0c989f1;
@@ -329,6 +332,7 @@
     height: 100%;
     background: black;
     z-index: 1;
+    border-radius: var(--card-radius);
 }
 
 /* Uploader Basket */
@@ -436,20 +440,26 @@
   border: 2px solid rgba(240, 238, 231, 0.938);
  
   border-radius: var(--card-radius);
-  box-shadow:
-        0px 15px 30px rgba(0, 0, 0, 0.45),
-        0px 20px 60px rgba(0, 0, 0, 0.30),
-        0px 30px 80px rgba(0, 0, 0, 0.20);
-  
-  opacity: 0;
-  transform: translateY(40px);
-  transition: var(--transition);
-  height: auto;
+ 
+  height: 100%;
   min-width: 220px;
    margin: 0 auto;
-    min-height: 220px;
+    min-height: 524px;
+     opacity: 0;
+  transform: translateX(80px);
+  transition: var(--transition);
+  animation: slideInRight 1.5s ease forwards;
 }
-
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
 
 .content-editor.animate-in {
   opacity: 1;
@@ -468,11 +478,12 @@
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
+  min-height: auto;
 }
 .editor-card h3 {
   text-align: center;
   font-size: 2rem;
-  color: #fdf7f7ee;
+  color: black;
   margin-bottom: 15px;
   opacity: 0;
   transform: translateX(50px);
@@ -522,33 +533,34 @@
   text-align: center;
   margin-bottom: 20px;
   font-size: 1.1rem;
-  color: white;
+  color: black;
   opacity: 0.85;
   line-height: 1.5;
 }
-
+.form-group{
+  color: black;
+}
 /* =============================
    INDIVIDUAL CARD STYLES
 ============================= */
 .banner-section,
 .content-editor {
   flex: 1 1 45%;
-  background: linear-gradient(
-    to top,
-    rgba(255, 255, 255, 0.6) 0%,     /* White at bottom */
-    rgba(43, 39, 39, 0.2) 100%,     /* Quick fade */
-    rgba(0, 0, 0, 1) 20%,            /* Black starts dominating */
-    rgba(0, 0, 0, 1) 100%            /* Fully black */
-  );
- 
+border: 1px solid black;
   animation: slideInRight 1.5s ease 1s forwards;
   border-radius: var(--card-radius);
-  box-shadow: var(--shadow, 0 4px 10px rgba(0, 0, 0, 0.1));
+ box-shadow:
+    inset 10px 10px 15px rgba(0, 0, 0, 0.4),
+    10px 10px 15px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transform: translateY(40px);
+  transition: var(--transition);
+
   padding: 25px;
   position: relative;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  min-height: 350px;
-  height: auto;
+  min-height: 524px;
+  height: 100%;
   
 }
 
@@ -572,16 +584,38 @@
   background: var(--accent);
   color: #111010;
   font-size: 1.5rem;
-  padding: 12px 40px;
-  border: 1px solid black;
+  padding: 20px 40px;
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
+  opacity: 0;                     /* start invisible */
+   transform: translateX(100px);
+  animation: slideInButton 1.3s ease forwards;
+  animation-delay: 1.5s;
+  transition: all 0.3s ease;
+       /* delay for a smoother reveal */
 }
 
+/* ✨ Hover effect */
 .save-btn:hover {
   background: var(--accent-strong);
-  transform: scale(1.05);
+  transform: translateX(0) scale(1.05);
+}
+
+/* 🔥 Keyframes for smooth slide-in */
+@keyframes slideInButton {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(-10px); /* small overshoot for natural feel */
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 /* =============================
