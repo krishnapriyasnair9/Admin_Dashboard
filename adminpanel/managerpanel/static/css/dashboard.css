@@ -71,8 +71,8 @@ body {
   max-width: 800px;
 }
 .hero-content h1 {
-  font-size: 2.6rem;
-  font-weight: 900px;
+  font-size: 3.6rem;
+  font-weight:bolder;
   margin-bottom: 8px;
   opacity: 0;
   transform: translateX(-50px);
@@ -90,7 +90,7 @@ body {
     transform: translateX(0);
   }
 }
-.bounce-letters span {
+/* .bounce-letters span {
   display: inline-block;
   animation: bounceOnce 0.9s ease-out forwards, bounceLoop 1.6s ease-in-out infinite 1.1s;
   opacity: 1;
@@ -119,7 +119,7 @@ body {
   100% {
     transform: translateY(0);
   }
-}
+} */
 
 /* ==============================
    SMALL VIDEO GALLERY SECTION
