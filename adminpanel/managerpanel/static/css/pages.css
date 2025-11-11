@@ -114,7 +114,7 @@
 /* ====== RESPONSIVE ====== */
 @media (max-width: 768px) {
   .page-heading {
-    height: 10vh;
+    height: auto;
     width: 98%;
   }
   .page-heading h1 {
@@ -332,7 +332,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: black;
+    background: transparent;
     z-index: 1;
     border-radius: var(--card-radius);
 }
@@ -343,7 +343,7 @@
     z-index: 2;
     border: 2px dashed var(--accent);
     border-radius: var(--card-radius);
-    background: black;
+    background: transparent;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -439,7 +439,7 @@
   width: 100%;
   padding: 30px 20px;
   position: relative;
-  border: 2px solid rgba(240, 238, 231, 0.938);
+  
   border-radius: var(--card-radius);
   height: 100%;
   min-width: 220px;
@@ -561,11 +561,18 @@
 .banner-section,
 .content-editor {
   flex: 1 1 48%;
-  border: 1px solid black;
+ 
   border-radius: var(--card-radius);
   box-shadow:
-  0 4px 15px rgba(0, 0, 0, 0.35),
-  0 0 10px rgba(255, 255, 255, 0.1);
+    /* main soft shadow */
+    0 4px 15px rgba(0, 0, 0, 0.35),
+    /* light inner glow */
+    0 0 10px rgba(255, 255, 255, 0.1),
+    /* ⬆️ Top thick dark bar shadow */
+    0 -12px 20px -10px rgba(0, 0, 0, 0.9),
+    /* ⬅️ Left thick dark bar shadow */
+    -12px 0 20px -10px rgba(0, 0, 0, 0.9);
+
   padding: 25px;
   position: relative;
   overflow: hidden;
@@ -578,15 +585,29 @@
   opacity: 1;
   transform: translateY(0);
 
-  /* ✅ Background image with fade (overlay via gradient) */
+  /* ✅ Background image with fade overlay */
   background: 
     linear-gradient(
-      rgba(0, 0, 0, 0.55),  /* top fade */
-      rgba(0, 0, 0, 0.65)   /* bottom fade */
+      rgba(0, 0, 0, 0.55),
+      rgba(0, 0, 0, 0.65)
     ),
     url("../images/image4.jpeg") center/cover no-repeat;
 
-  color: #fff; /* ✅ ensures text is readable */
+  color: #fff;
+}
+.banner-section::before,
+.content-editor::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow:
+    inset 12px 0 15px -10px rgba(0, 0, 0, 0.9),
+    inset 0 12px 15px -10px rgba(0, 0, 0, 0.9);
+  border-radius: var(--card-radius);
+  pointer-events: none;
 }
 
 
