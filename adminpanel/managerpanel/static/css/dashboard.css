@@ -459,10 +459,16 @@ body {
 @media (max-width: 1100px) {
   .hero-content {
     margin-bottom: -41px;
-    left: 50%;
+    left: 60%;
     transform: translateX(-50%);
     width: 90%;
     text-align: center;
+  }
+   .hero-content h1 {
+    font-size: 2.8rem;
+  }
+  .hero-content p {
+    font-size: 1rem;
   }
 }
 @media (max-width: 900px) {
@@ -479,6 +485,18 @@ body {
   .sidebar-logo {
     width: 140px;
   }
+   .hero-content h1 {
+    font-size: 2.3rem;
+    line-height: 1.2;
+  }
+  .hero-content p {
+    font-size: 0.95rem;
+    padding: 0 20px;
+  }
+  .hero-content{
+    left: 60%;
+  }
+  
 }
 @media (max-width: 600px) {
   .sidebar {
@@ -496,6 +514,17 @@ body {
   .menu-toggle {
     display: inline-block;
   }
+  .hero-content h1 {
+    font-size: 1.8rem;
+    margin-bottom: 6px;
+  }
+  .hero-content p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  .hero-content{
+    left: 50%;
+  }
 }
 @media (max-width: 600px) {
   .menu-item a:active {
@@ -503,5 +532,18 @@ body {
     background: linear-gradient(150deg, var(--gold) 0%, var(--sidebar-dark) 50%, var(--gold) 100%);
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
     color: #f7f7f8f3;
+  }
+  
+}
+/* Very Small Phones (<400px) */
+@media (max-width: 400px) {
+  .hero-content h1 {
+    font-size: 1.5rem;
+  }
+  .hero-content p {
+    font-size: 0.85rem;
+  }
+  .hero-content{
+    left: 50%;
   }
 }
