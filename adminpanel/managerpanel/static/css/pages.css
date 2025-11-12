@@ -540,14 +540,16 @@
   margin: -25px -20px 23px -25px; /* pull outside parent padding */
   text-align: center;
   font-size: 1.1rem;
-  color: black;
+  color: rgb(250, 247, 247);
   opacity: 0.95;
   line-height: 1.6;
-  background: rgb(245, 180, 16);
+  
   padding: 16px 20px;
   border-radius: 0; /* remove rounding that might show side background */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   height: 100px;
+  background: linear-gradient(150deg, var(--gold) 0%, var(--sidebar-dark) 0%, var(--gold) 90%);
+
 }
 
 
