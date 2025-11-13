@@ -30,19 +30,18 @@
 .main-wrapper {
   position: relative;
   z-index: 1;
-  padding: 30px 20px; /* Adjusted padding */
+  padding: 30px 20px;
   margin-top: 0;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center items horizontally */
+  align-items: center;
   gap: 26px;
-  width: 100%; /* Set wrapper width to 95% */
-  margin-left: auto; /* Center the wrapper */
-  margin-right: auto; /* Center the wrapper */
-    opacity: 0;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0;
   animation: pageFadeIn 1s ease forwards;
-  
 }
 
 @keyframes pageFadeIn {
@@ -62,68 +61,6 @@
   opacity: 1;
   transform: translateY(0);
 }
-
-/* ========================
-   PAGE HEADING
-======================== */
-/* ====== PAGE HEADING SECTION ====== */
-.page-heading {
-  position: relative;
-  max-width: 1056px;
-  width: 97%;
-  margin: 0 auto;
-  height: 10vh;
-  border-radius: 12px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  overflow: hidden;
-  animation: fadeSlideIn 1s ease-out forwards;
-}
-
-.page-heading h1 {
-  font-family: Fahkwang, sans-serif;
-  font-size: 2.2rem;
-  font-weight: bold;
-  color: black;
-  opacity: 0;
-  transform: translateX(60px);
-  transition: all 0.8s ease-out;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.page-heading.animate-in h1 {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-@keyframes fadeSlideIn {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ====== RESPONSIVE ====== */
-@media (max-width: 768px) {
-  .page-heading {
-    height: auto;
-    width: 98%;
-  }
-  .page-heading h1 {
-    font-size: 1.6rem;
-    white-space: normal;
-  }
-}
-
-
 
 /* =========================
    MESSAGES
@@ -156,9 +93,9 @@
 }
 
 /* Types */
-.message.success { background: #28a745; } /* Green for success */
-.message.error { background: #dc3545; } /* Red for error */
-.message.warning { background: #ffc107; } /* Yellow for warning */
+.message.success { background: #28a745; }
+.message.error { background: #dc3545; }
+.message.warning { background: #ffc107; }
 
 @keyframes fadeInMessage {
   to { opacity: 1; transform: translateY(0); }
@@ -185,11 +122,10 @@
   animation: slideInTop 1.5s ease forwards;
 }
 
-/* Animation from TOP */
 @keyframes slideInTop {
   0% {
     opacity: 0;
-    transform: translateY(-100px); /* start from top */
+    transform: translateY(-100px);
   }
   100% {
     opacity: 1;
@@ -202,7 +138,6 @@
   transform: translateY(0);
 }
 
-/* Zoom effect on hover */
 .banner-section:hover {
   transform: scale(1.02);
   box-shadow: var(--shadow-hover);
@@ -212,21 +147,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 38px;
   width: 100%;
   max-width: 800px;
-  
 }
 
-/* Banner heading */
 .banner-label {
-  font-size: 2rem;
+  font-size: 1rem;
   font-weight: 700;
   color: rgb(250, 248, 248);
   text-align: center;
   line-height: 1.2;
   margin: 0;
-  
   opacity: 0;
   transform: translateX(50px);
   transition: var(--transition);
@@ -237,7 +169,6 @@
   transform: translateX(0);
 }
 
-/* Button container */
 .type-buttons {
   display: flex;
   justify-content: center;
@@ -247,11 +178,9 @@
   height:50px;
 }
 
-/* Individual button styling */
 .type-btn {
   padding: 10px 24px;
   border-radius: 15px;
- 
   background: #eeba2c;
   color: #070707;
   font-size: 1rem;
@@ -301,7 +230,6 @@
     transform: translateY(0);
 }
 
-/* Video Background */
 .background-video {
     position: absolute;
     top: 10px;
@@ -325,7 +253,6 @@
     transform: scale(1.05);
 }
 
-/* Overlay for contrast */
 .background-video .overlay {
     position: absolute;
     top: 5px;
@@ -337,7 +264,6 @@
     border-radius: var(--card-radius);
 }
 
-/* Uploader Basket */
 .uploader.basket {
     position: relative;
     z-index: 2;
@@ -357,14 +283,12 @@
     top:5px;
 }
 
-/* Glowing border on drag */
 .uploader.dragging {
     border-color: var(--gold);
     box-shadow: 0 0 20px var(--accent-glow);
     transform: scale(1.02);
 }
 
-/* Basket Icon */
 .basket-icon {
     margin-bottom: 10px;
     color: var(--accent);
@@ -383,7 +307,6 @@
     color: var(--gold);
 }
 
-/* Drop hint */
 .drop-hint {
     font-size: 1rem;
     color: #fff;
@@ -393,9 +316,8 @@
     z-index: 5;
 }
 
-/* Preview Area */
 .preview-area {
-    flex: 1; /* Takes full remaining space */
+    flex: 1;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -420,7 +342,6 @@
     box-shadow: 0 8px 20px rgba(0,0,0,0.4);
 }
 
-/* File Input */
 #fileInput {
  position: absolute;
     top: 0;
@@ -439,23 +360,21 @@
   width: 100%;
   padding: 30px 20px;
   position: relative;
-  
   border-radius: var(--card-radius);
   height: 100%;
   min-width: 220px;
   margin: 0 auto;
   min-height: 524px;
   opacity: 0;
-  transform: translateY(-80px); /* slide from top */
+  transform: translateY(-80px);
   transition: var(--transition);
   animation: slideInTopEditor 1.5s ease forwards;
 }
 
-/* Animation from TOP */
 @keyframes slideInTopEditor {
   0% {
     opacity: 0;
-    transform: translateY(-100px); /* start from above */
+    transform: translateY(-100px);
   }
   100% {
     opacity: 1;
@@ -468,7 +387,6 @@
   transform: translateY(0);
 }
 
-/* Zoom effect on hover */
 .content-editor:hover {
   transform: scale(1.02);
   box-shadow: var(--shadow-hover);
@@ -476,7 +394,7 @@
 .editor-card {
   display: flex;
   flex-direction: column;
-  gap: 56px;
+  gap: 98px;
   background: transparent;
   width: 100%;
   max-width: 800px;
@@ -512,9 +430,7 @@
   border-color: var(--accent);
   box-shadow: 0 4px 12px rgba(238,186,44,0.3);
 }
-/* ========================
-   FORM CARDS LAYOUT
-======================== */
+
 /* =============================
    FORM CARDS LAYOUT
 ============================= */
@@ -523,80 +439,68 @@
   flex-wrap: wrap;
   gap: 30px;
   justify-content: center;
-  align-items: flex-start;
+  align-items: stretch; /* ✅ ensures both cards match height */
   max-width: 1100px;
-  margin: 0 auto;
+  margin: 0 auto 0 0;
   position: relative;
   padding: 20px;
-  
 }
 
-/* ✅ Fix: align intro flush with card edges */
 .form-cards .section-intro {
   position: relative;
   left: 0;
   right: 0;
-  width: calc(103% + 40px); /* extend to cover padding space */
-  margin: -25px -20px 23px -25px; /* pull outside parent padding */
+  width: calc(103% + 40px);
+  margin: -25px -20px 23px -21px;
   text-align: center;
   font-size: 1.1rem;
   color: rgb(250, 247, 247);
   opacity: 0.95;
   line-height: 1.6;
-  
   padding: 16px 20px;
-  border-radius: 0; /* remove rounding that might show side background */
+  border-radius: 0;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   height: 100px;
   background: linear-gradient(150deg, var(--gold) 0%, var(--sidebar-dark) 0%, var(--gold) 90%);
-
 }
-
-
+h1{
+  text-align: center;
+}
 
 .form-group{
   color: rgba(250, 250, 250, 0.966);
 }
+
 /* =============================
    INDIVIDUAL CARD STYLES
 ============================= */
 .banner-section,
 .content-editor {
   flex: 1 1 48%;
- 
-  border-radius: var(--card-radius);
-  box-shadow:
-    /* main soft shadow */
-    0 4px 15px rgba(0, 0, 0, 0.35),
-    /* light inner glow */
-    0 0 10px rgba(255, 255, 255, 0.1),
-    /* ⬆️ Top thick dark bar shadow */
-    0 -12px 20px -10px rgba(0, 0, 0, 0.9),
-    /* ⬅️ Left thick dark bar shadow */
-    -12px 0 20px -10px rgba(0, 0, 0, 0.9);
-
-  padding: 25px;
-  position: relative;
-  overflow: hidden;
-  min-height: 520px;
-  height: 600px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.6s ease;
-  opacity: 1;
-  transform: translateY(0);
-
-  /* ✅ Background image with fade overlay */
+  align-items: center;
+  border-radius: var(--card-radius);
+  padding: 25px;
+  position: relative;
+  overflow: hidden;
+  min-height: auto;
+  height: auto; /* ✅ auto height based on content */
+  box-shadow:
+    0 4px 15px rgba(0, 0, 0, 0.35),
+    0 0 10px rgba(255, 255, 255, 0.1),
+    0 -12px 20px -10px rgba(0, 0, 0, 0.9),
+    -12px 0 20px -10px rgba(0, 0, 0, 0.9);
   background: 
     linear-gradient(
       rgba(0, 0, 0, 0.55),
       rgba(0, 0, 0, 0.65)
     ),
     url("../images/image4.jpeg") center/cover no-repeat;
-
   color: #fff;
 }
+
 .banner-section::before,
 .content-editor::before {
   content: "";
@@ -612,8 +516,6 @@
   pointer-events: none;
 }
 
-
-/* ✅ Hover Zoom Effect */
 .banner-section:hover,
 .content-editor:hover {
   transform: scale(1.03);
@@ -621,7 +523,7 @@
 }
 
 /* =============================
-   SAVE BUTTON CENTERED BELOW CARDS
+   SAVE BUTTON
 ============================= */
 .save-section {
   width: 100%;
@@ -637,80 +539,50 @@
   border-radius: 20px;
   cursor: pointer;
   transition: all 0.3s ease;
-  opacity: 0;                     /* start invisible */
-   transform: translateX(100px);
+  opacity: 0;
+  transform: translateX(100px);
   animation: slideInButton 1.3s ease forwards;
   animation-delay: 1.5s;
-  transition: all 0.3s ease;
-       /* delay for a smoother reveal */
 }
 
-/* ✨ Hover effect */
 .save-btn:hover {
   background: var(--accent-strong);
   transform: translateX(0) scale(1.05);
 }
 
-/* 🔥 Keyframes for smooth slide-in */
 @keyframes slideInButton {
-  0% {
-    opacity: 0;
-    transform: translateX(100px);
-  }
-  60% {
-    opacity: 1;
-    transform: translateX(-10px); /* small overshoot for natural feel */
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  0% { opacity: 0; transform: translateX(100px); }
+  60% { opacity: 1; transform: translateX(-10px); }
+  100% { opacity: 1; transform: translateX(0); }
 }
 
 /* =============================
-   SMOOTH CARD ANIMATION
-============================= */
-.card-animation {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-
-.card-animation.animate-in {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-
-/* ========================
-   CARD HOVER EFFECTS
-======================== */
-/* Removed redundant hover effects from here as they are added directly to the elements */
-
-
-/* ========================
    RESPONSIVE
-======================== */
-
+============================= */
 @media(max-width:900px){
   .page-heading h1 { font-size: 2rem; }
   .banner-label, .editor-card h3 { font-size: 1.7rem; }
   .type-btn { font-size: 0.95rem; padding: 10px 22px; min-width: 100px; }
   .upload-container, .content-editor, .banner-section { padding: 25px 20px; }
+  .form-cards .section-intro { height: 130px;}
+  .form-cards{margin: 0 -35px 0 -35px; top:-43px;}
 }
 @media(max-width:768px){
   .page-heading h1 { font-size: 1.6rem; }
   .banner-label, .editor-card h3 { font-size: 1.5rem; }
   .type-btn { font-size: 0.9rem; padding: 8px 20px; min-width: 90px; }
   .upload-container, .content-editor, .banner-section { max-width: 110%; margin: 0 auto; }
+  .form-cards .section-intro { height: 130px;}
+   .form-cards{margin: 0 -35px 0 -35px; top:-43px;}
 }
 @media(max-width:480px){
   .page-heading h1 { font-size: 1.4rem; }
   .banner-label, .editor-card h3 { font-size: 1.3rem; }
   .type-btn { font-size: 0.85rem; padding: 6px 18px; min-width: 80px; }
   .messages, .banner-section, .upload-container, .content-editor { width: 95%; margin: 0 auto; margin-top: 19px;}
+  .form-cards .section-intro { height: 130px;}
+   .form-cards{margin: 0 -35px 0 -35px;top:-43px;}
 }
-/* Mobile / touch devices: enable zoom effect on tap */
 @media (hover: none) and (pointer: coarse) {
   .banner-section,
   .upload-container,
@@ -721,6 +593,6 @@
   .upload-container:active,
   .content-editor:active {
     transform: scale(1.02);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.3); /* black shadow effect */
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
   }
 }

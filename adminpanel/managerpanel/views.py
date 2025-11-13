@@ -77,147 +77,204 @@ class UpdateProfileAPI(LoginRequiredMixin, View):
         return redirect(request.META.get("HTTP_REFERER", "/home/"))
 class UpdateHomeView(LoginRequiredMixin, SuperUserRequiredMixin, View):
     def post(self, request):
-        hero_heading = request.POST.get("heading")
-        hero_description = request.POST.get("description")
-        banner_type = request.POST.get("banner_type")  # Must be 'image' or 'video'
+        hero_heading = request.POST.get("heading", "").strip()
+        hero_description = request.POST.get("description", "").strip()
+        banner_type = request.POST.get("banner_type", "")
         banner_file = request.FILES.get("banner_file")
 
-        # Check if banner type is selected
-        if not banner_type:
-            messages.error(request, "⚠️ Please select a banner type before saving!")
+        if not (hero_heading or hero_description or banner_type or banner_file):
+            messages.error(request, "⚠️ Please fill at least one field before saving.")
             return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=home"))
 
-        # Validate file based on selected banner type
-        if banner_type == "video":
-            if not banner_file or banner_file.name.split('.')[-1].lower() not in ["mp4", "webm"]:
-                messages.error(request, "❌ You selected 'Video' but uploaded file is missing or not a valid video!")
+        if banner_file and not banner_type:
+            messages.error(request, "❌ Banner file uploaded but banner type not selected. Please choose 'Image' or 'Video'.")
+            return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=home"))
+
+        if banner_file and banner_type:
+            ext = banner_file.name.split(".")[-1].lower()
+            if banner_type == "video" and ext not in ["mp4", "webm", "mov", "ogg"]:
+                messages.error(request, "❌ Invalid video format. Please upload MP4, WEBM, MOV, or OGG.")
                 return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=home"))
-        elif banner_type == "image":
-            if banner_file and banner_file.name.split('.')[-1].lower() not in ["jpg","jpeg","png","gif"]:
-                messages.error(request, "❌ You selected 'Image' but uploaded file is not a valid image!")
+            elif banner_type == "image" and ext not in ["jpg", "jpeg", "png", "gif", "webp"]:
+                messages.error(request, "❌ Invalid image format. Please upload JPG, PNG, GIF, or WEBP.")
                 return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=home"))
 
-        # Save banner
         banner, _ = Banner.objects.get_or_create(page="home")
-        banner.heading = hero_heading
-        banner.description = hero_description
-        banner.banner_type = banner_type
 
+        updated_fields = []
+        if hero_heading:
+            banner.heading = hero_heading
+            updated_fields.append("heading")
+        if hero_description:
+            banner.description = hero_description
+            updated_fields.append("description")
+        if banner_type:
+            banner.banner_type = banner_type
+            updated_fields.append("banner_type")
         if banner_file:
             banner.banner_file = banner_file
+            updated_fields.append("banner_file")
+
+        if not updated_fields:
+            messages.warning(request, "⚠️ No changes detected. Please edit something before saving.")
+            return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=home"))
 
         banner.save()
-        messages.success(request, "✅ Home page updated successfully!")
+        messages.success(request, f"✅ Home page updated successfully ({', '.join(updated_fields)} updated).")
         return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=home"))
+
+
+# =========================================
+# 🔹 2. PACKAGE PAGE UPDATE VIEW
+# =========================================
 class UpdatePackageView(LoginRequiredMixin, SuperUserRequiredMixin, View):
     def post(self, request):
-        # Hero heading & description
-        hero_heading = request.POST.get("heading")
-        hero_description = request.POST.get("description")
-
-        # Banner type & file
-        banner_type = request.POST.get("banner_type")
+        heading = request.POST.get("heading", "").strip()
+        description = request.POST.get("description", "").strip()
+        banner_type = request.POST.get("banner_type", "")
         banner_file = request.FILES.get("banner_file")
 
-        # Validation: ensure banner type is selected
-        if not banner_type:
-            messages.error(request, "⚠️ Please select a banner type before saving!")
+        if not (heading or description or banner_type or banner_file):
+            messages.error(request, "⚠️ Please fill at least one field before saving.")
             return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=package"))
 
-        # Validation: ensure uploaded file matches selected type
-        if banner_file:
+        if banner_file and not banner_type:
+            messages.error(request, "❌ Banner file uploaded but banner type not selected.")
+            return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=package"))
+
+        if banner_file and banner_type:
             ext = banner_file.name.split(".")[-1].lower()
-            if banner_type == "image" and ext not in ["jpg", "jpeg", "png", "gif", "webp"]:
-                messages.error(request, "❌ Uploaded file is not an image. Please select a correct file.")
+            if banner_type == "video" and ext not in ["mp4", "webm", "mov", "ogg"]:
+                messages.error(request, "❌ Invalid video format for package banner.")
                 return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=package"))
-            elif banner_type == "video" and ext not in ["mp4", "webm", "mov", "ogg"]:
-                messages.error(request, "❌ Uploaded file is not a video. Please select a correct file.")
+            elif banner_type == "image" and ext not in ["jpg", "jpeg", "png", "gif", "webp"]:
+                messages.error(request, "❌ Invalid image format for package banner.")
                 return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=package"))
 
-        # Save banner (page="package")
         banner, _ = Banner.objects.get_or_create(page="package")
-        banner.banner_type = banner_type
-        banner.heading = hero_heading
-        banner.description = hero_description
 
+        updated_fields = []
+        if heading:
+            banner.heading = heading
+            updated_fields.append("heading")
+        if description:
+            banner.description = description
+            updated_fields.append("description")
+        if banner_type:
+            banner.banner_type = banner_type
+            updated_fields.append("banner_type")
         if banner_file:
             banner.banner_file = banner_file
+            updated_fields.append("banner_file")
+
+        if not updated_fields:
+            messages.warning(request, "⚠️ No changes detected.")
+            return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=package"))
 
         banner.save()
-
-        messages.success(request, "✅ Package page updated successfully!")
+        messages.success(request, f"✅ Package page updated successfully ({', '.join(updated_fields)} updated).")
         return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=package"))
-class UpdateContactView(LoginRequiredMixin, SuperUserRequiredMixin, View):
-    def post(self, request):
-        # Hero heading & description
-        hero_heading = request.POST.get("heading")
-        hero_description = request.POST.get("description")
 
-        # Banner type & file
-        banner_type = request.POST.get("banner_type")
-        banner_file = request.FILES.get("banner_file")
 
-        # Validation: ensure banner type is selected
-        if not banner_type:
-            messages.error(request, "⚠️ Please select a banner type before saving!")
-            return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=contact"))
-
-        # Validation: file type matches banner type
-        if banner_file:
-            ext = banner_file.name.split(".")[-1].lower()
-            if banner_type == "image" and ext not in ["jpg", "jpeg", "png", "gif", "webp"]:
-                messages.error(request, "❌ Uploaded file is not an image. Please select a correct file.")
-                return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=contact"))
-            elif banner_type == "video" and ext not in ["mp4", "webm", "mov", "ogg"]:
-                messages.error(request, "❌ Uploaded file is not a video. Please select a correct file.")
-                return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=contact"))
-
-        # Save banner (page="contact")
-        banner, _ = Banner.objects.get_or_create(page="contact")
-        banner.banner_type = banner_type
-        banner.heading = hero_heading
-        banner.description = hero_description
-
-        if banner_file:
-            banner.banner_file = banner_file
-
-        banner.save()
-        messages.success(request, "✅ Contact page updated successfully!")
-        return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=contact"))
+# =========================================
+# 🔹 3. FRANCHISE PAGE UPDATE VIEW
+# =========================================
 class UpdateFranchiseView(LoginRequiredMixin, SuperUserRequiredMixin, View):
     def post(self, request):
-        # Hero heading & description
-        hero_heading = request.POST.get("heading")
-        hero_description = request.POST.get("description")
-
-        # Banner type & file
-        banner_type = request.POST.get("banner_type")
+        heading = request.POST.get("heading", "").strip()
+        description = request.POST.get("description", "").strip()
+        banner_type = request.POST.get("banner_type", "")
         banner_file = request.FILES.get("banner_file")
 
-        # Validation: ensure banner type is selected
-        if not banner_type:
-            messages.error(request, "⚠️ Please select a banner type before saving!")
+        if not (heading or description or banner_type or banner_file):
+            messages.error(request, "⚠️ Please fill at least one field before saving.")
             return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=franchise"))
 
-        # Validation: file type matches banner type
-        if banner_file:
+        if banner_file and not banner_type:
+            messages.error(request, "❌ Banner file uploaded but banner type not selected.")
+            return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=franchise"))
+
+        if banner_file and banner_type:
             ext = banner_file.name.split(".")[-1].lower()
-            if banner_type == "image" and ext not in ["jpg", "jpeg", "png", "gif", "webp"]:
-                messages.error(request, "❌ Uploaded file is not an image. Please select a correct file.")
+            if banner_type == "video" and ext not in ["mp4", "webm", "mov", "ogg"]:
+                messages.error(request, "❌ Invalid video format for franchise banner.")
                 return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=franchise"))
-            elif banner_type == "video" and ext not in ["mp4", "webm", "mov", "ogg"]:
-                messages.error(request, "❌ Uploaded file is not a video. Please select a correct file.")
+            elif banner_type == "image" and ext not in ["jpg", "jpeg", "png", "gif", "webp"]:
+                messages.error(request, "❌ Invalid image format for franchise banner.")
                 return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=franchise"))
 
-        # Save banner (page="franchise")
         banner, _ = Banner.objects.get_or_create(page="franchise")
-        banner.banner_type = banner_type
-        banner.heading = hero_heading
-        banner.description = hero_description
 
+        updated_fields = []
+        if heading:
+            banner.heading = heading
+            updated_fields.append("heading")
+        if description:
+            banner.description = description
+            updated_fields.append("description")
+        if banner_type:
+            banner.banner_type = banner_type
+            updated_fields.append("banner_type")
         if banner_file:
             banner.banner_file = banner_file
+            updated_fields.append("banner_file")
+
+        if not updated_fields:
+            messages.warning(request, "⚠️ No changes detected.")
+            return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=franchise"))
 
         banner.save()
-        messages.success(request, "✅ Franchise page updated successfully!")
+        messages.success(request, f"✅ Franchise page updated successfully ({', '.join(updated_fields)} updated).")
         return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=franchise"))
+
+
+# =========================================
+# 🔹 4. CONTACT PAGE UPDATE VIEW
+# =========================================
+class UpdateContactView(LoginRequiredMixin, SuperUserRequiredMixin, View):
+    def post(self, request):
+        heading = request.POST.get("heading", "").strip()
+        description = request.POST.get("description", "").strip()
+        banner_type = request.POST.get("banner_type", "")
+        banner_file = request.FILES.get("banner_file")
+
+        if not (heading or description or banner_type or banner_file):
+            messages.error(request, "⚠️ Please fill at least one field before saving.")
+            return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=contact"))
+
+        if banner_file and not banner_type:
+            messages.error(request, "❌ Banner file uploaded but banner type not selected.")
+            return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=contact"))
+
+        if banner_file and banner_type:
+            ext = banner_file.name.split(".")[-1].lower()
+            if banner_type == "video" and ext not in ["mp4", "webm", "mov", "ogg"]:
+                messages.error(request, "❌ Invalid video format for contact banner.")
+                return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=contact"))
+            elif banner_type == "image" and ext not in ["jpg", "jpeg", "png", "gif", "webp"]:
+                messages.error(request, "❌ Invalid image format for contact banner.")
+                return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=contact"))
+
+        banner, _ = Banner.objects.get_or_create(page="contact")
+
+        updated_fields = []
+        if heading:
+            banner.heading = heading
+            updated_fields.append("heading")
+        if description:
+            banner.description = description
+            updated_fields.append("description")
+        if banner_type:
+            banner.banner_type = banner_type
+            updated_fields.append("banner_type")
+        if banner_file:
+            banner.banner_file = banner_file
+            updated_fields.append("banner_file")
+
+        if not updated_fields:
+            messages.warning(request, "⚠️ No changes detected.")
+            return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=contact"))
+
+        banner.save()
+        messages.success(request, f"✅ Contact page updated successfully ({', '.join(updated_fields)} updated).")
+        return redirect(request.META.get("HTTP_REFERER", "/dashboard/?page=contact"))

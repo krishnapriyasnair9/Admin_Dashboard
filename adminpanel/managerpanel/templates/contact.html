@@ -20,12 +20,7 @@
     </div>
     {% endif %}
 
-    <!-- Page heading -->
-    <section class="page-heading card-animation">
-        <div class="image-background"></div>
-        <div class="fade-overlay"></div>
-        <h1 id="pageTitle">Make the contact Page Shine</h1>
-    </section>
+   
 
     <!-- ======================
          SINGLE FORM FOR BOTH CARDS
@@ -44,6 +39,7 @@
         </p>
 
         <div class="banner-content">
+            <h1>Edit Your Contact Banner</h1>
             <h2 class="banner-label">Choose Your Banner Type</h2>
             <div class="type-buttons">
                 <button type="button" class="type-btn {% if page.banner_type == 'image' %}active{% endif %}" data-type="image" id="btnImage">Image</button>
@@ -106,7 +102,7 @@
         </p>
 
         <div class="editor-card">
-            <h3>Update Page Content</h3>
+            <h3>Update Contact Page Content</h3>
             <div class="form-group">
                 <label for="editHeading">Page Heading</label>
                 <input id="editHeading" type="text" name="heading" value="{{ page.heading }}" />
