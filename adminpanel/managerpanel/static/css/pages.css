@@ -38,7 +38,7 @@
   align-items: center;
   gap: 26px;
   width: 100%;
-  margin-left: auto;
+  margin-left: 0;
   margin-right: auto;
   opacity: 0;
   animation: pageFadeIn 1s ease forwards;
@@ -281,6 +281,7 @@
     padding: 10px;
     overflow: hidden;
     top:5px;
+    height:270px;
 }
 
 .uploader.dragging {
@@ -394,7 +395,7 @@
 .editor-card {
   display: flex;
   flex-direction: column;
-  gap: 98px;
+  gap: 92px;
   background: transparent;
   width: 100%;
   max-width: 800px;
@@ -566,6 +567,7 @@ h1{
   .upload-container, .content-editor, .banner-section { padding: 25px 20px; }
   .form-cards .section-intro { height: 130px;}
   .form-cards{margin: 0 -35px 0 -35px; top:-43px;}
+  .main-wrapper {width: 100%;}
 }
 @media(max-width:768px){
   .page-heading h1 { font-size: 1.6rem; }
@@ -574,6 +576,7 @@ h1{
   .upload-container, .content-editor, .banner-section { max-width: 110%; margin: 0 auto; }
   .form-cards .section-intro { height: 130px;}
    .form-cards{margin: 0 -35px 0 -35px; top:-43px;}
+   .main-wrapper {width: 100%;}
 }
 @media(max-width:480px){
   .page-heading h1 { font-size: 1.4rem; }
@@ -582,6 +585,7 @@ h1{
   .messages, .banner-section, .upload-container, .content-editor { width: 95%; margin: 0 auto; margin-top: 19px;}
   .form-cards .section-intro { height: 130px;}
    .form-cards{margin: 0 -35px 0 -35px;top:-43px;}
+   .main-wrapper {width: 100%;}
 }
 @media (hover: none) and (pointer: coarse) {
   .banner-section,

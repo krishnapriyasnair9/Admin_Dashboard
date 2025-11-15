@@ -17,7 +17,7 @@
 
 /* BASE LAYOUT */
 body {
-  background: #f0efeef1;
+  background: #e0dfdff1;
   color: var(--text);
   overflow-x: hidden;
 }
@@ -29,7 +29,7 @@ body {
 .hero-section {
   position: relative;
   width: 100%;
-  height: 252px;
+  height: 216px;
   overflow: hidden;
   z-index: 1;
 }
@@ -61,7 +61,7 @@ body {
 .hero-content {
   position: absolute;
   justify-content: center;
-  bottom: 64px;
+  bottom: 45px;
   left: 60%;
   transform: translateX(-50%);
   color: #fcfbf8f3;
@@ -498,6 +498,7 @@ body {
   }
   .hero-content{
     left: 60%;
+    bottom: 93px;
   }
   
 }
@@ -527,6 +528,7 @@ body {
   }
   .hero-content{
     left: 50%;
+    bottom: 93px;
   }
 }
 @media (max-width: 600px) {
@@ -548,5 +550,6 @@ body {
   }
   .hero-content{
     left: 50%;
+    bottom: 93px;
   }
 }
